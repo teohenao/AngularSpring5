@@ -1,0 +1,4 @@
+ng new 'nombre-proyecto'         crear el proyecto
+ng serve                         correr el servidor del proyecto
+
+

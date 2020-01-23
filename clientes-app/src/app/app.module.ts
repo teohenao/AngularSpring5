@@ -9,6 +9,13 @@ import { DirectivaComponent } from './directiva/directiva.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { ClienteService } from './clientes/cliente.service';
 
+import { RouterModule, Routes } from '@angular/router';
+const routes:Routes=[
+  {path: '',redirectTo:'/clientes',pathMatch:'full'},
+  {path:'directivas',component:DirectivaComponent},
+  {path:'clientes',component:ClientesComponent}
+];
+
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -18,7 +25,8 @@ import { ClienteService } from './clientes/cliente.service';
     ClientesComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [ClienteService],
   bootstrap: [AppComponent]

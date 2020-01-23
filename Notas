@@ -3,3 +3,5 @@ ng serve                         correr el servidor del proyecto
 
 ng g class 'nombre de la clase'  crear una clase component ts 'creo'
 ng generate component directiva  alias 'g c' para crear componentes
+
+ng g service cliente             crear servicio

@@ -12,11 +12,14 @@ export class ClientesComponent implements OnInit {
 
   constructor(private clienteService:ClienteService)
   { 
-    
+
   }
 
   ngOnInit() {
-    this.clientes = this.clienteService.getClientes();
+    this.clienteService.getClientes().subscribe(
+      //funcion anonima, a la cual se le asigna clientes del servicio a los clientes de la clase
+      clientes => this.clientes = clientes
+    );
   }
 
 }

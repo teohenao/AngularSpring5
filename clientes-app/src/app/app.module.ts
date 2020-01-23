@@ -5,12 +5,14 @@ import { AppComponent } from './app.component';
 // Importar los componentes  en declarations para poder utilizarlos
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { DirectivaComponent } from './directiva/directiva.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
-    AppComponent
+    AppComponent,
+    DirectivaComponent
   ],
   imports: [
     BrowserModule

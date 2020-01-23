@@ -1,4 +1,4 @@
 ng new 'nombre-proyecto'         crear el proyecto
 ng serve                         correr el servidor del proyecto
 
-
+ng g class 'nombre de la clase'

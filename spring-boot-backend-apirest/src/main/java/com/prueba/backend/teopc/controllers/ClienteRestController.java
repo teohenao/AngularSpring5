@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.prueba.backend.teopc.models.entity.Cliente;
 import com.prueba.backend.teopc.models.services.IClienteService;
 
+/**
+ * el map es la direccion de la app con la que quiere iniciar y ya despues hacer los request
+ * @author mateohenao
+ */
 @RestController
 @RequestMapping("/api")
 public class ClienteRestController {
@@ -17,6 +21,10 @@ public class ClienteRestController {
 	@Autowired
 	private IClienteService clienteService;
 
+	/**
+	 * Se mapea clientes y antes de el va el api del request indicado
+	 * @return
+	 */
 	@GetMapping("/clientes")
 	public List<Cliente> index()
 	{

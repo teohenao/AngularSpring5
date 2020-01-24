@@ -1,11 +1,17 @@
 package com.prueba.backend.teopc.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.prueba.backend.teopc.models.entity.Cliente;
@@ -33,5 +39,31 @@ public class ClienteRestController {
 	{
 		return clienteService.findAll();
 	}
+	
+	/**
+	 * PathVariable es para pasar el parametro por request
+	 * @param id
+	 * @return Cliente
+	 */
+	@GetMapping("/clientes/{id}")
+	@ResponseStatus(HttpStatus.OK) //ese ok si no lo colocamos es creado por defecto, esto es redundancia, solo se coloca si es una respuesta diferente y si uno quiere
+	public Cliente show(@PathVariable Long id)
+	{
+		return clienteService.findById(id); 
+	}
+
+	/**
+	 * Requestbody por que el cliente viene del cuerpo de la peticion en formato json el se encarga de convertirlo en cliente
+	 * @param cliente
+	 * @return
+	 */
+	@PostMapping("/clientes")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Cliente create(@RequestBody Cliente cliente)
+	{
+		//cliente.setCreateAt(new Date()); esto lo hicimos mejor con Prepersist en entity cliente
+		return clienteService.save(cliente);
+	}
+	
 	
 }

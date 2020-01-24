@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Cliente } from './cliente';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { ClienteService } from './cliente.service';
 import {Router,ActivatedRoute} from '@angular/router'
 
@@ -39,7 +39,7 @@ this.activateRoute.params.subscribe(params=>
     this.clienteService.create(this.cliente).subscribe(
       clienteResponse =>
       {this.route.navigate(['/clientes'])
-      swal('Cliente guardado',`Cliente ${clienteResponse.nombre} creado con exito`,'success')}
+      Swal.fire('Cliente guardado',`Cliente ${clienteResponse.nombre} creado con exito`,'success')}
     );
   }
 
@@ -48,7 +48,7 @@ this.activateRoute.params.subscribe(params=>
     this.clienteService.update(this.cliente)
     .subscribe(clienteResponse=>{
       this.route.navigate(['/clientes'])
-      swal('Cliente actualizado',`Cliente ${clienteResponse.nombre} actualizado con exito`,'success')
+      Swal.fire('Cliente actualizado',`Cliente ${clienteResponse.nombre} actualizado con exito`,'success')
     });
   }
 

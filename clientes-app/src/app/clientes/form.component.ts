@@ -22,7 +22,9 @@ export class FormComponent implements OnInit {
   {
     //Metodo crear, y en su respuesta redirecciona a clientes de nuevo
     this.clienteService.create(this.cliente).subscribe(
-      response => this.route.navigate(['/clientes'])
+      clienteResponse =>
+      {this.route.navigate(['/clientes'])
+      swal('Cliente guardado',`Cliente ${clienteResponse.nombre} creado con exito`,'success')}
     );
   }
 

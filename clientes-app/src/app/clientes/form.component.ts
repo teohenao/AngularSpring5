@@ -43,4 +43,13 @@ this.activateRoute.params.subscribe(params=>
     );
   }
 
+  update():void
+  {
+    this.clienteService.update(this.cliente)
+    .subscribe(clienteResponse=>{
+      this.route.navigate(['/clientes'])
+      swal('Cliente actualizado',`Cliente ${clienteResponse.nombre} actualizado con exito`,'success')
+    });
+  }
+
 }

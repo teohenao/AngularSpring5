@@ -16,7 +16,7 @@ import com.prueba.backend.teopc.models.services.IClienteService;
  * @author mateohenao
  */
 //cross es el encargado de la comunicacion entre el back y el front se puede especificar en cross los request que le voy a permitir
-@CrossOrigin(origins = {"http://localhost:42000"})
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api")
 public class ClienteRestController {

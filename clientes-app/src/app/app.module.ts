@@ -8,8 +8,11 @@ import { FooterComponent } from './footer/footer.component';
 import { DirectivaComponent } from './directiva/directiva.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { ClienteService } from './clientes/cliente.service';
-
+//import para las rutas
 import { RouterModule, Routes } from '@angular/router';
+//impoort para las peticiones http, conectar back y front
+import { HttpClientModule } from '@angular/common/http';
+
 const routes:Routes=[
   {path: '',redirectTo:'/clientes',pathMatch:'full'},
   {path:'directivas',component:DirectivaComponent},
@@ -26,6 +29,7 @@ const routes:Routes=[
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     RouterModule.forRoot(routes)
   ],
   providers: [ClienteService],

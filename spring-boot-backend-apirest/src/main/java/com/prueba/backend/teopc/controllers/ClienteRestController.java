@@ -103,7 +103,6 @@ public class ClienteRestController {
 	}
 
 	@PutMapping("/clientes/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<?> update(@RequestBody Cliente cliente, @PathVariable Long id)
 	{
 		Cliente clienteActual = clienteService.findById(id);
@@ -133,10 +132,18 @@ public class ClienteRestController {
 	}
 
 	@DeleteMapping("/clientes/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable Long id)
+	public ResponseEntity<?> delete(@PathVariable Long id)
 	{
-		clienteService.delete(id);
+		Map<String, Object> response  = new HashMap<>();
+		try {
+			clienteService.delete(id);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Ocurrio un error en la bd");
+			response.put("mensaje", e.getMessage().concat(" : ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put("mensaje", "eliminado con exito");
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
 	}
 
 }

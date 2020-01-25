@@ -5,6 +5,7 @@ import { Observable, of,throwError } from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map,catchError} from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import {formatDate,DatePipe} from '@angular/common';
 import {Router} from '@angular/router'
 
 
@@ -38,6 +39,9 @@ export class ClienteService {
          //el map se utiliza para modificar objetos o flujo de una lista o algo asi etc
          return clientes.map(cliente =>{
            cliente.nombre = cliente.nombre.toUpperCase();
+           let datePipe = new DatePipe('en-US');
+           cliente.createAt = datePipe.transform(cliente.createAt,'dd/MM/yyyy'); 
+           //formatDate(cliente.createAt,'dd-MM-yyyy','en-US'); esta es una forma de cambiar el formato de fecha del cliente
            return cliente;
          });
         }

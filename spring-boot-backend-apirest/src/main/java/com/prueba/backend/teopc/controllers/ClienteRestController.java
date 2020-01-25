@@ -1,9 +1,13 @@
 package com.prueba.backend.teopc.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,9 +52,26 @@ public class ClienteRestController {
 	 */
 	@GetMapping("/clientes/{id}")
 	@ResponseStatus(HttpStatus.OK) //ese ok si no lo colocamos es creado por defecto, esto es redundancia, solo se coloca si es una respuesta diferente y si uno quiere
-	public Cliente show(@PathVariable Long id)
+	public ResponseEntity<?> show(@PathVariable Long id)// ? es tipo de dato generic, que puede ser cualquiera, responseEntity se coloca por que puede devolver un error si el cliente no existe /id
 	{
-		return clienteService.findById(id); 
+		Cliente cliente = null;
+		//map es encargado de la respuesta al servidor, por ejemplo en caso de fallos
+		Map<String, Object> response  = new HashMap<>();
+		//try catch para manejar errores de conexion o por parte del servidor
+		try {
+			//cliente encontrado por id
+			cliente = clienteService.findById(id); 
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Ocurrio un error en la bd");
+			response.put("mensaje", e.getMessage().concat(" : ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if(cliente == null)
+		{
+			response.put("mensaje", "El cliente Id:".concat(id.toString()).concat(" No existe"));
+			return new ResponseEntity<Map<String, Object>>(response,HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Cliente>(cliente,HttpStatus.OK); 
 	}
 
 	/**

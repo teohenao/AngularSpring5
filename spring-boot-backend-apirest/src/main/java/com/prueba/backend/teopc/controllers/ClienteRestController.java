@@ -80,11 +80,26 @@ public class ClienteRestController {
 	 * @return
 	 */
 	@PostMapping("/clientes")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente create(@RequestBody Cliente cliente)
+	// esto se quita por que varia entre si es o no creado  por eso el return entity -> @ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<?> create(@RequestBody Cliente cliente)
 	{
 		//cliente.setCreateAt(new Date()); esto lo hicimos mejor con Prepersist en entity cliente
-		return clienteService.save(cliente);
+		Cliente nuevoCliente = null;
+		Map<String, Object> response  = new HashMap<>();
+		//este try y catch maneja los campos unicos y nulos que tenemos en la entidad
+		try {
+			nuevoCliente = clienteService.save(cliente);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Ocurrio un error en la bd");
+			response.put("mensaje", e.getMessage().concat(" : ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		//el response es un archivo json con el mensaje y el cliente
+		response.put("mensaje", "cliente creado con exito");
+		//tambien se puede pasar en respuestas onjectos
+		response.put("cliente", nuevoCliente);
+		//fijese que se pasa el map para pasar la respuesta del objeto o mensaje en el servidor
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/clientes/{id}")

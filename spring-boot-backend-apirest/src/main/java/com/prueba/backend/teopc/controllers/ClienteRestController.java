@@ -31,7 +31,7 @@ import com.prueba.backend.teopc.models.services.IClienteService;
 @RestController
 @RequestMapping("/api")
 public class ClienteRestController {
-	
+
 	@Autowired
 	private IClienteService clienteService;
 
@@ -44,7 +44,7 @@ public class ClienteRestController {
 	{
 		return clienteService.findAll();
 	}
-	
+
 	/**
 	 * PathVariable es para pasar el parametro por request
 	 * @param id
@@ -101,23 +101,42 @@ public class ClienteRestController {
 		//fijese que se pasa el map para pasar la respuesta del objeto o mensaje en el servidor
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping("/clientes/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente update(@RequestBody Cliente cliente, @PathVariable Long id)
+	public ResponseEntity<?> update(@RequestBody Cliente cliente, @PathVariable Long id)
 	{
 		Cliente clienteActual = clienteService.findById(id);
-		clienteActual.setApellido(cliente.getApellido());
-		clienteActual.setNombre(cliente.getNombre());
-		clienteActual.setEmail(cliente.getEmail());
-		return clienteService.save(clienteActual);
-	}
+		Cliente clienteActualizado = null;		
+		Map<String, Object> response  = new HashMap<>();
+		if(clienteActual == null)
+		{
+			response.put("mensaje", "El cliente Id:".concat(id.toString()).concat(" No existe"));
+			return new ResponseEntity<Map<String, Object>>(response,HttpStatus.NOT_FOUND);
+		}
+		try {
+			clienteActual.setApellido(cliente.getApellido());
+			clienteActual.setNombre(cliente.getNombre());
+			clienteActual.setEmail(cliente.getEmail());
+			clienteActual.setCreateAt(cliente.getCreateAt());
+			clienteActualizado = clienteService.save(clienteActual);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Ocurrio un error en la bd");
+			response.put("mensaje", e.getMessage().concat(" : ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	
+		response.put("mensaje", "cliente actualizado con exito");
+		response.put("cliente", clienteActualizado);
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED) ;
+	}
+
 	@DeleteMapping("/clientes/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id)
 	{
 		clienteService.delete(id);
 	}
-	
+
 }

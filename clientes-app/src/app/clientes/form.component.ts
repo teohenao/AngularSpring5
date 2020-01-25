@@ -37,18 +37,20 @@ this.activateRoute.params.subscribe(params=>
   {
     //Metodo crear, y en su respuesta redirecciona a clientes de nuevo
     this.clienteService.create(this.cliente).subscribe(
-      clienteResponse =>
+      cliente =>
       {this.route.navigate(['/clientes'])
-      Swal.fire('Cliente guardado',`Cliente ${clienteResponse.nombre} creado con exito`,'success')}
+      
+      Swal.fire('Cliente guardado',`El cliente ${cliente.nombre} ha sido creado con exito`,'success')}
     );
   }
 
   update():void
   {
     this.clienteService.update(this.cliente)
-    .subscribe(clienteResponse=>{
+    .subscribe(JSON=>{
       this.route.navigate(['/clientes'])
-      Swal.fire('Cliente actualizado',`Cliente ${clienteResponse.nombre} actualizado con exito`,'success')
+      //se lee el json de respuesta desde el backend
+      Swal.fire('Cliente actualizado',`Cliente ${JSON.cliente.nombre} actualizado con exito`,'success')
     });
   }
 

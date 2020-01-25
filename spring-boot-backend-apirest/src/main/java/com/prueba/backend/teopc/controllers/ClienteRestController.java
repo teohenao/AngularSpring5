@@ -96,7 +96,7 @@ public class ClienteRestController {
 		}
 		//el response es un archivo json con el mensaje y el cliente
 		response.put("mensaje", "cliente creado con exito");
-		//tambien se puede pasar en respuestas onjectos
+		//tambien se puede pasar en respuestas onjectos, el retorna todo esto como un json
 		response.put("cliente", nuevoCliente);
 		//fijese que se pasa el map para pasar la respuesta del objeto o mensaje en el servidor
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);

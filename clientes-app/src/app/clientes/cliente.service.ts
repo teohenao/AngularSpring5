@@ -37,7 +37,9 @@ export class ClienteService {
 
 create(cliente:Cliente) :Observable<Cliente>
 {
-  return this.http.post<Cliente>(this.urlEndPoint,cliente,{headers:this.httpHeaders}).pipe(
+  return this.http.post(this.urlEndPoint,cliente,{headers:this.httpHeaders}).pipe(
+    //Este map lo utilizamos para convertir un objeto que existe en el json, en objeto cliente
+    map((JSONObj:any)=>JSONObj.cliente as Cliente),
     catchError(e=>{
       console.error(e.error.mensaje);
       Swal.fire('Error al crear cliente',e.error.mensaje,'error');
@@ -58,9 +60,10 @@ getCliente(id):Observable<Cliente>
     })
   );
 }
-update(cliente:Cliente):Observable<Cliente>
+//el observable de tipo any para que poder trabajar con json
+update(cliente:Cliente):Observable<any>
 {
-  return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`,cliente,{headers:this.httpHeaders}).pipe(
+  return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`,cliente,{headers:this.httpHeaders}).pipe(
     catchError(e=>{
       console.error(e.error.mensaje);
       Swal.fire('Error al actualizar cliente',e.error.mensaje,'error');

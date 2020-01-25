@@ -23,17 +23,18 @@ public class Cliente implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@NotEmpty
+	@NotEmpty(message = "no puede estar vacio")
 	@Size(min = 2,max = 12)
 	@Column(nullable = false)
 	private String nombre;
-	@NotEmpty
+	@NotEmpty(message = "no puede estar vacio")
 	@Column(nullable = false)
 	private String apellido;
-	@NotEmpty
-	@Email
+	@NotEmpty(message = "no puede estar vacio")
+	@Email(message = "debe ser un formato de email")
 	@Column(nullable = false,unique = true)
 	private String email;
+	
 	
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)

@@ -7,9 +7,12 @@ ng g c 'carpeta/nombre' --flat   para crear componente en una carpeta ya exist
 
 ng g service cliente             crear servicio
 
+
 npm install bootstrap@4.0.0-beta.2 jquery.js --save  instalar booststrap por npm
 
 eclipse configurado se puede descargar desde la pagina de spring.io abajo en tools
+se instala spring desde el market, se le da other, springboot,spring start project, maven,jar,java 11 ? el que tenga
+se selecciona las dependencias de web,jpa,devtools,sql
 
 npm install --save sweetalert2@7.26.9  instalar swetAlert para embellecer alerta
 https://sweetalert2.github.io/

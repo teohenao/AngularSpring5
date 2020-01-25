@@ -30,8 +30,19 @@ export class ClienteService {
     //this.http.get<Cliente[]>(this.urlEndPoint);
 
     return this.http.get(this.urlEndPoint).pipe(
-      map(response => response as Cliente[])
-    );
+      map(response => 
+        {
+         //let es un tipo de variable que se puede declarar en los metodos
+         let clientes = response as Cliente[];
+
+         //el map se utiliza para modificar objetos o flujo de una lista o algo asi etc
+         return clientes.map(cliente =>{
+           cliente.nombre = cliente.nombre.toUpperCase();
+           return cliente;
+         });
+        }
+      )
+    )
   }
 
 

@@ -1,13 +1,19 @@
 package com.prueba.backend.teopc.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.prueba.backend.teopc.models.entity.Cliente;
 import com.prueba.backend.teopc.models.services.IClienteService;
 
@@ -81,12 +86,33 @@ public class ClienteRestController {
 	 */
 	@PostMapping("/clientes")
 	// esto se quita por que varia entre si es o no creado  por eso el return entity -> @ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> create(@RequestBody Cliente cliente)
+	//antes de Request le decimos que valide los campos con @Valid, es importante por que asi en entity diga sin esto no funciona, y result es para validar
+	public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente,BindingResult result)
 	{
 		//cliente.setCreateAt(new Date()); esto lo hicimos mejor con Prepersist en entity cliente
 		Cliente nuevoCliente = null;
 		Map<String, Object> response  = new HashMap<>();
 		//este try y catch maneja los campos unicos y nulos que tenemos en la entidad
+		if(result.hasErrors())
+		{
+			
+//		 //una lista que va a contener los errores de los campos, este es una manera para manejar los errores
+//		 List<String> errors = new ArrayList<>();
+//		 for(FieldError error :result.getFieldErrors())
+//		 {
+//			 errors.add("el campo: "+error.getField()+" "+error.getDefaultMessage());
+//		 }
+			
+		 //esta es la otra manera para trabajar con esos errores, se convierten los errores a tipo lista y ese return de metodo flecha se utilza cuando tiene varias lineas, en este caso no afectaria quitarlo por que solo tiene una linea de codigo ese metodo flecha
+		 List<String> errors = result.getFieldErrors()
+				 .stream().map(err->{
+					 return "El campo"+err.getField()+" "+err.getDefaultMessage();
+				 }).collect(Collectors.toList());
+		 
+		 response.put("errors", errors);
+		 return new ResponseEntity<Map<String, Object>>(response,HttpStatus.BAD_REQUEST);
+		}
+		
 		try {
 			nuevoCliente = clienteService.save(cliente);
 		} catch (DataAccessException e) {
@@ -103,11 +129,21 @@ public class ClienteRestController {
 	}
 
 	@PutMapping("/clientes/{id}")
-	public ResponseEntity<?> update(@RequestBody Cliente cliente, @PathVariable Long id)
+	public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente,BindingResult result, @PathVariable Long id)
 	{
 		Cliente clienteActual = clienteService.findById(id);
 		Cliente clienteActualizado = null;		
 		Map<String, Object> response  = new HashMap<>();
+		if(result.hasErrors())
+		{
+			List<String> errors = result.getFieldErrors()
+				 .stream().map(err->{
+					 return "El campo"+err.getField()+" "+err.getDefaultMessage();
+				 }).collect(Collectors.toList());
+		 
+		 response.put("errors", errors);
+		 return new ResponseEntity<Map<String, Object>>(response,HttpStatus.BAD_REQUEST);
+		}
 		if(clienteActual == null)
 		{
 			response.put("mensaje", "El cliente Id:".concat(id.toString()).concat(" No existe"));

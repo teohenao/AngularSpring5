@@ -52,6 +52,11 @@ getCliente(id):Observable<Cliente>
 {
   return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
     catchError(e => {
+      //error 400 viene de la validacion de campos desde backend
+      if(e.status==400)
+      {
+        return throwError(e);
+      }
       this.router.navigate(['/clientes'])
       console.error(e.error.mensaje);
       //e.error.mensaje es el que determinamos desde el backend
@@ -65,6 +70,11 @@ update(cliente:Cliente):Observable<any>
 {
   return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`,cliente,{headers:this.httpHeaders}).pipe(
     catchError(e=>{
+      //error 400 viene de la validacion de campos desde backend
+      if(e.status==400)
+      {
+        return throwError(e);
+      }
       console.error(e.error.mensaje);
       Swal.fire('Error al actualizar cliente',e.error.mensaje,'error');
       return throwError(e);

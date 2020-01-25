@@ -1,3 +1,9 @@
+<ul class="alert alert-danger" *ngIf="errores?.length>0">
+    <li *ngFor="let err of errores">
+        {{err}}
+    </li>
+</ul>
+
 <div class="card bg-dark text-white">
     <div class="card-header">{{titulo}}</div>
     <div class="card-body">
@@ -7,7 +13,7 @@
                 <label class="col-form-label col-sm-2" for="nombre">Nombre</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" [(ngModel)]="cliente.nombre" name="nombre"
-                    required minlength="2" #nombre="ngModel">
+                    #nombre="ngModel">
                     <!-- dirty muestra el error cuando escribimos, o touched cuando se sale de la casilla input -->
                     <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
                         <div *ngIf="nombre.errors.required">

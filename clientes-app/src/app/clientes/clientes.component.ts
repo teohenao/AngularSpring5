@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
 import Swal from 'sweetalert2';
+import {map,catchError,tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-clientes',
@@ -17,9 +18,19 @@ export class ClientesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.clienteService.getClientes().subscribe(
+    this.clienteService.getClientes().pipe(
+    // el tap en si funciona para trabajar con los datos que nos estan mandando, este operador no retorna nada
+    tap(clientes =>{
+      this.clientes = clientes;
+      console.log('ClienteComponent: tap3')
+      clientes.forEach(cliente =>{
+        console.log(cliente.nombre);
+      });
+    })
+    //el suvscribe es un metodo que nos permite subscribirnos para un observable
+    ).subscribe(
       //funcion anonima, a la cual se le asigna clientes del servicio a los clientes de la clase
-      clientes => this.clientes = clientes
+      //clientes => this.clientes = clientes, se puede aca o en el tap como queramos, se necesita el subscribe por que si no no puede trabajar el observable 
     );
   }
 

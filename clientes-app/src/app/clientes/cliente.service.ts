@@ -3,7 +3,7 @@ import { CLIENTES } from './clientes.json';
 import { Cliente } from './cliente.js';
 import { Observable, of,throwError } from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {map,catchError} from 'rxjs/operators';
+import {map,catchError,tap} from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import {DatePipe} from '@angular/common';
 import {Router} from '@angular/router'
@@ -31,6 +31,14 @@ export class ClienteService {
     //this.http.get<Cliente[]>(this.urlEndPoint);
 
     return this.http.get(this.urlEndPoint).pipe(
+      tap(
+        response => {
+          let clientes = response as Cliente[];
+          console.log('ClientesService: tap1')
+          clientes.forEach(cliente =>{
+            console.log(cliente.nombre);
+          })
+        }),
       map(response => 
         {
          //let es un tipo de variable que se puede declarar en los metodos
@@ -47,7 +55,14 @@ export class ClienteService {
            return cliente;
          });
         }
-      )
+      ),tap(
+        response => {
+          let clientes = response as Cliente[];
+          console.log('ClientesService: tap2')
+          clientes.forEach(cliente =>{
+            console.log(cliente.nombre);
+          })
+      }),
     )
   }
 

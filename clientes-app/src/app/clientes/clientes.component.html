@@ -27,8 +27,9 @@
         <tr *ngFor="let c of clientes">
             <td>{{c.id}}</td>
             <td>{{c.nombre}}</td>
-            <td>{{c.apellido}}</td>
-            <td>{{c.createAt}}</td>
+            <td>{{c.apellido | uppercase}}</td>
+            <!-- locale_id es para cambiar el lenguaje incluido el de los pipes -->
+            <td>{{c.createAt | date:"EEEE dd,MMMM yyyy"}}</td>
             <td>{{c.email}}</td>
             <td>
                 <button type="button" name="button" 

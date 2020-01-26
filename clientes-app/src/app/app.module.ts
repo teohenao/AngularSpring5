@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 
 import { AppComponent } from './app.component';
 // Importar los componentes  en declarations para poder utilizarlos
@@ -44,7 +44,7 @@ const routes:Routes=[
     FormsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [ClienteService],
+  providers: [ClienteService,{provide:LOCALE_ID,useValue:'es'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

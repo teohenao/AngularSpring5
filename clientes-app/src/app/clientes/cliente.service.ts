@@ -42,7 +42,7 @@ export class ClienteService {
            
            let datePipe = new DatePipe('es');
            //para que el dia aparezca con nombres del dia se le agrega EEE E 3 o 4, mes: MMM, or fulldate, para español se coloca internacionalizacion en angular para buscar
-           cliente.createAt = datePipe.transform(cliente.createAt,'EEEE dd, MMMM  yyyy'); 
+           //cliente.createAt = datePipe.transform(cliente.createAt,'EEEE dd, MMMM  yyyy'); 
            //formatDate(cliente.createAt,'dd-MM-yyyy','en-US'); esta es una forma de cambiar el formato de fecha del cliente
            return cliente;
          });

@@ -15,7 +15,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormComponent } from './clientes/form.component';
 //import formularios de angular
 import {FormsModule} from '@angular/forms'
+import localeES from '@angular/common/locales/es'
+import {registerLocaleData} from '@angular/common';
 
+
+//internacionalizacion para el idioma de las fechas
+registerLocaleData(localeES,'es');
 const routes:Routes=[
   {path: '',redirectTo:'/clientes',pathMatch:'full'},
   {path:'directivas',component:DirectivaComponent},

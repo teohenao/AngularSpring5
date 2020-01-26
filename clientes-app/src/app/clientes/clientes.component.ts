@@ -3,6 +3,7 @@ import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
 import Swal from 'sweetalert2';
 import {map,catchError,tap} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-clientes',
@@ -12,16 +13,27 @@ export class ClientesComponent implements OnInit {
 
   clientes:Cliente[];
 
-  constructor(private clienteService:ClienteService)
+  constructor(private clienteService:ClienteService,private activatedRouted:ActivatedRoute)
   { 
 
   }
 
   ngOnInit() {
-    let page = 0;
-    this.clienteService.getClientes(page).pipe(
-    // el tap en si funciona para trabajar con los datos que nos estan mandando, este operador no retorna nada
-    tap(resJson =>{
+   
+    //paramMap se encarga de observar y estar atento al cambio en la ruta para la paginacion
+    //la subscripcion tambien es necesaria para estar atenta al cambio
+    this.activatedRouted.paramMap.subscribe(params=>{
+    //en el get va el nombre del parametro tal cual
+    //se puede castear con :number y colocando operador + 
+    let page:number = + params.get('page');
+    if(!page)
+    {
+      page = 0;
+    } 
+    this.clienteService.getClientes(page)
+      .pipe(
+      // el tap en si funciona para trabajar con los datos que nos estan mandando, este operador no retorna nada
+      tap(resJson =>{
       console.log('ClienteComponent: tap3');
       (resJson.content as Cliente[]).forEach(cliente =>{
         console.log(cliente.nombre);
@@ -33,6 +45,7 @@ export class ClientesComponent implements OnInit {
       //funcion anonima, a la cual se le asigna clientes del servicio a los clientes de la clase
       //clientes => this.clientes = clientes, se puede aca o en el tap como queramos, se necesita el subscribe por que si no no puede trabajar el observable 
     );
+    });
   }
 
   delete(cliente:Cliente):void

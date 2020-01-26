@@ -7,12 +7,13 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DirectivaComponent } from './directiva/directiva.component';
 import { ClientesComponent } from './clientes/clientes.component';
+import { PaginatorComponent } from './paginator/paginator.component';
 import { ClienteService } from './clientes/cliente.service';
+import { FormComponent } from './clientes/form.component';
 //import para las rutas
 import { RouterModule, Routes } from '@angular/router';
 //impoort para las peticiones http, conectar back y front
 import { HttpClientModule } from '@angular/common/http';
-import { FormComponent } from './clientes/form.component';
 //import formularios de angular
 import {FormsModule} from '@angular/forms'
 import localeES from '@angular/common/locales/es'
@@ -37,7 +38,8 @@ const routes:Routes=[
     AppComponent,
     DirectivaComponent,
     ClientesComponent,
-    FormComponent
+    FormComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,

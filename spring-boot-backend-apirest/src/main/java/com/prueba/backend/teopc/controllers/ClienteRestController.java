@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -44,6 +47,19 @@ public class ClienteRestController {
 	public List<Cliente> index()
 	{
 		return clienteService.findAll();
+	}
+	
+	/**
+	 * 
+	 * @param paginando los registros 
+	 * @return
+	 */
+	@GetMapping("/clientes/page/{page}")
+	public Page<Cliente> index(@PathVariable Integer page)
+	{
+		//pagerequest con el of, queda estatico, y es el que nos ayuda con la paginacion el internamente hace el limit y todo de la consulta, siendo page, el numero de pagina que se le pasa por parametro y el otro la cantidad de registros por pagina
+		Pageable pageable = PageRequest.of(page,4); 
+		return clienteService.findAll(pageable);
 	}
 
 	/**

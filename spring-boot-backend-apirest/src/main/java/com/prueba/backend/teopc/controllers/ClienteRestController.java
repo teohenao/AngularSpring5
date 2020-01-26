@@ -50,14 +50,14 @@ public class ClienteRestController {
 	}
 	
 	/**
-	 * 
-	 * @param paginando los registros 
+	 * paginando los registros 
+	 * @param 
 	 * @return
 	 */
 	@GetMapping("/clientes/page/{page}")
 	public Page<Cliente> index(@PathVariable Integer page)
 	{
-		//pagerequest con el of, queda estatico, y es el que nos ayuda con la paginacion el internamente hace el limit y todo de la consulta, siendo page, el numero de pagina que se le pasa por parametro y el otro la cantidad de registros por pagina
+		//pagerequest con el of, queda estatico, y es el que nos ayuda con la paginacion el internamente hace el limit y offest y todo de la consulta, siendo page, el numero de pagina que se le pasa por parametro y el otro la cantidad de registros por pagina
 		Pageable pageable = PageRequest.of(page,4); 
 		return clienteService.findAll(pageable);
 	}

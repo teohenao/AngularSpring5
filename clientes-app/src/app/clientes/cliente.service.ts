@@ -22,7 +22,8 @@ export class ClienteService {
 
   //observable y observadores, se subscriben a este cambio, es el patron de diseño observador
   //es para mantener atento a los cambios en el servidor y mantiene avisando a los cambios
-  getClientes():Observable<Cliente[]>
+  //any por que gracias al paginador nos devuelve un json con varios objetos y page es el numero de pagina
+  getClientes(page:number):Observable<any>
   {
     //of para observables reactivos
     //return of(CLIENTES);
@@ -30,22 +31,22 @@ export class ClienteService {
     //<CLienre[]> es un casteo, o el cast se puede hacer por el operador map con funcion de flecha sin function y return o como esta abajo
     //this.http.get<Cliente[]>(this.urlEndPoint);
 
-    return this.http.get(this.urlEndPoint).pipe(
+    return this.http.get(this.urlEndPoint+'/page/'+page).pipe(
       tap(
-        response => {
-          let clientes = response as Cliente[];
-          console.log('ClientesService: tap1')
-          clientes.forEach(cliente =>{
+        //response:any para poder manejar el json de paginator que trae content y la informacion de pagina
+        (response:any) => {
+          console.log('ClientesService: tap1');
+          (response.content as Cliente[]).forEach(cliente =>{
             console.log(cliente.nombre);
           })
         }),
-      map(response => 
+      map((response:any) => 
         {
          //let es un tipo de variable que se puede declarar en los metodos
-         let clientes = response as Cliente[];
+         //let clientes = response as Cliente[];
 
          //el map se utiliza para modificar objetos o flujo de una lista o algo asi etc
-         return clientes.map(cliente =>{
+         (response.content as Cliente[]).map(cliente =>{
            cliente.nombre = cliente.nombre.toUpperCase();
            
            let datePipe = new DatePipe('es');
@@ -54,12 +55,11 @@ export class ClienteService {
            //formatDate(cliente.createAt,'dd-MM-yyyy','en-US'); esta es una forma de cambiar el formato de fecha del cliente
            return cliente;
          });
-        }
-      ),tap(
+         return response;
+        }),tap(
         response => {
-          let clientes = response as Cliente[];
-          console.log('ClientesService: tap2')
-          clientes.forEach(cliente =>{
+          console.log('ClientesService: tap2');
+          (response.content as Cliente[]).forEach(cliente =>{
             console.log(cliente.nombre);
           })
       }),

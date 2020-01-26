@@ -18,17 +18,18 @@ export class ClientesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.clienteService.getClientes().pipe(
+    let page = 0;
+    this.clienteService.getClientes(page).pipe(
     // el tap en si funciona para trabajar con los datos que nos estan mandando, este operador no retorna nada
-    tap(clientes =>{
-      this.clientes = clientes;
-      console.log('ClienteComponent: tap3')
-      clientes.forEach(cliente =>{
+    tap(resJson =>{
+      console.log('ClienteComponent: tap3');
+      (resJson.content as Cliente[]).forEach(cliente =>{
         console.log(cliente.nombre);
       });
     })
     //el suvscribe es un metodo que nos permite subscribirnos para un observable
     ).subscribe(
+      responseJson => this.clientes = responseJson.content as Cliente[]
       //funcion anonima, a la cual se le asigna clientes del servicio a los clientes de la clase
       //clientes => this.clientes = clientes, se puede aca o en el tap como queramos, se necesita el subscribe por que si no no puede trabajar el observable 
     );

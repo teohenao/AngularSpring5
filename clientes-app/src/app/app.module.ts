@@ -18,7 +18,9 @@ import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from '@angular/forms'
 import localeES from '@angular/common/locales/es'
 import {registerLocaleData} from '@angular/common';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDatepickerModule,MatButtonModule,MatFormFieldModule,MatInputModule,MatRippleModule} from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 //internacionalizacion para el idioma de las fechas
 registerLocaleData(localeES,'es');
@@ -45,7 +47,12 @@ const routes:Routes=[
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    //materias angular
+    BrowserAnimationsModule,
+    //material angular para datepicker
+    MatMomentDateModule,
+    MatDatepickerModule,MatButtonModule,MatFormFieldModule,MatInputModule,MatRippleModule
   ],
   providers: [ClienteService,{provide:LOCALE_ID,useValue:'es'}],
   bootstrap: [AppComponent]

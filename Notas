@@ -17,4 +17,6 @@ se selecciona las dependencias de web,jpa,devtools,sql
 npm install --save sweetalert2@7.26.9  instalar swetAlert para embellecer alerta
 https://sweetalert2.github.io/
 npm install sweetalert2
-
+ng add @angular/material
+npm install --save @angular/material-moment-adapter      esto es para material, datepicker por el problema con la fecha us
+npm install --save moment

@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,7 +209,8 @@ public class ClienteRestController {
 		Cliente cliente = clienteService.findById(id);
 		if(!archivo.isEmpty())
 		{
-			String nombreArchivo = archivo.getOriginalFilename();
+			//ese replace es para reemplazar espacios en blancos por nada
+			String nombreArchivo =UUID.randomUUID().toString()+"_"+ archivo.getOriginalFilename().replace(" ", "");
 			Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
 			try {
 				Files.copy(archivo.getInputStream(),rutaArchivo);
@@ -222,7 +224,6 @@ public class ClienteRestController {
 			response.put("cliente", cliente);
 			response.put("mensaje", "has subido correctamente la imagen "+nombreArchivo);
 		}
-		
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED) ;
 	}
 

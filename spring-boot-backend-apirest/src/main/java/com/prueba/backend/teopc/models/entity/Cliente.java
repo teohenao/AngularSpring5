@@ -42,6 +42,8 @@ public class Cliente implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 	
+	private String foto;
+	
 	//Prepersist es el encargado de que antes de persistir el cliente se ejecute este metodo
 //	@PrePersist
 //	public void prePersist()
@@ -80,6 +82,15 @@ public class Cliente implements Serializable{
 		this.createAt = createAt;
 	}
 	
+	
+	public String getFoto() {
+		return foto;
+	}
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
+
 	/**
 	 * 
 	 */

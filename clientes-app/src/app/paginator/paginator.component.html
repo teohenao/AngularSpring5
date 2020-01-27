@@ -3,11 +3,17 @@
      <li class="page-item" *ngIf="paginador.number > 0">
         <a class="page-link" [routerLink]="['/clientes/page',paginador.number-1]">&laquo;</a>
     </li>
+    <li [ngClass]="paginador.first?'disabled page-item':'page-item'">
+        <a class="page-link" [routerLink]="['/clientes/page',0]">Primera</a>
+    </li>
     <!-- ese ngclass paginador es para desabilitar la mano de link en el item numero de paginas actuales -->
-    <li class="page-item" *ngFor="let pagina of paginas" [ngClass]="pagina-1==paginador.number?'disabled':''">
+    <li class="page-item" *ngFor="let pagina of paginas" [ngClass]="pagina-1==paginador.number?'active':''">
        <!-- pagina -1 por que empieza en 0 , paginador es el json de paginador, y el tiene number quedice la pagina actual etc-->
     <span *ngIf="pagina-1 == paginador.number" class="page-link">{{pagina}}</span>
     <a *ngIf="pagina-1 != paginador.number" class="page-link" [routerLink]="['/clientes/page',pagina-1]"> {{pagina}}</a> 
+    </li>
+    <li [ngClass]="paginador.last?'disabled page-item':'page-item'">
+        <a class="page-link" [routerLink]="['/clientes/page',paginador.totalPages-1]">Ultima</a>
     </li>
     <!-- mientras no sea la ultima pagina se muestra para cambiar a la pagina siguiente -->
     <li class="page-item" *ngIf="paginador.number < paginador.totalPages-1">

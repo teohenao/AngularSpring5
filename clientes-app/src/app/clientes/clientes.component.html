@@ -1,48 +1,50 @@
 <div class="card border-primary mb-3">
-    <div class="card-header">Clientes</div>
-    <div class="card-body text-primary">
-      <h5 class="card-title">Listado de clientes</h5>
-      <!-- my-2 es una margen que tiene bootstrap -->
-      <div class="my-2 text-left">
-          <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/clientes/form']">
-              Crear Cliente
-          </button>
-      </div>
-      <div *ngIf="clientes?.length==0" class="alert  alert-info">   
-          No hay registros en la base de datos
-      </div>
-<table class="table table-bordered table-striped" *ngIf="clientes?.length>0">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Fecha</th>
-            <th>Email</th>
-            <th>Editar</th>
-            <th>Eliminar</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let c of clientes">
-            <td>{{c.id}}</td>
-            <td>{{c.nombre}}</td>
-            <td>{{c.apellido | uppercase}}</td>
-            <!-- locale_id es para cambiar el lenguaje incluido el de los pipes -->
-            <td>{{c.createAt | date:"EEEE dd,MMMM yyyy"}}</td>
-            <td>{{c.email}}</td>
-            <td>
-                <button type="button" name="button" 
-                [routerLink]="['/clientes/form',c.id]" class="btn btn-primary btn-sm">Editar</button>
-            </td>
-            <td>
-                <button type="button" name="eliminar" (click)='delete(c)' class="btn btn-danger btn-sm">
-                    Eliminar
-                </button>   
-            </td>
-        </tr>
-    </tbody>
-</table>
-<paginator-nav></paginator-nav>
+  <div class="card-header">Clientes</div>
+  <div class="card-body text-primary">
+    <h5 class="card-title">Listado de clientes</h5>
+    <!-- my-2 es una margen que tiene bootstrap -->
+    <div class="my-2 text-left">
+      <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/clientes/form']">
+        Crear Cliente
+      </button>
     </div>
+    <div *ngIf="clientes?.length==0" class="alert  alert-info">
+      No hay registros en la base de datos
+    </div>
+    <table class="table table-bordered table-striped" *ngIf="clientes?.length>0">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Fecha</th>
+          <th>Email</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of clientes">
+          <td>{{c.id}}</td>
+          <td>{{c.nombre}}</td>
+          <td>{{c.apellido | uppercase}}</td>
+          <!-- locale_id es para cambiar el lenguaje incluido el de los pipes -->
+          <td>{{c.createAt | date:"EEEE dd,MMMM yyyy"}}</td>
+          <td>{{c.email}}</td>
+          <td>
+            <button type="button" name="button" [routerLink]="['/clientes/form',c.id]"
+              class="btn btn-primary btn-sm">Editar</button>
+          </td>
+          <td>
+            <button type="button" name="eliminar" (click)='delete(c)' class="btn btn-danger btn-sm">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- injeccion de dependencias entre componente padre y componente hijo 'paginador' -->
+    <!-- con ese ngIf paginador solucionamos el error de asincronismo, y se carga cuando el paginador llegue con los resultados -->
+    <paginator-nav  *ngIf="paginador" [paginador]="paginador"></paginator-nav>
   </div>
+</div>

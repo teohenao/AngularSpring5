@@ -8,12 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
+//import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -35,18 +36,19 @@ public class Cliente implements Serializable{
 	@Column(nullable = false,unique = true)
 	private String email;
 	
-	
+	//se coloca not null para campos como date u otro objeto, mientras que en estring es notempty
 	@Column(name = "create_at")
+	@NotNull(message = "fecha campo no puede ser vacio")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 	
 	//Prepersist es el encargado de que antes de persistir el cliente se ejecute este metodo
-	@PrePersist
-	public void prePersist()
-	{
-		createAt = new Date();
-	}
-	
+//	@PrePersist
+//	public void prePersist()
+//	{
+//		createAt = new Date();
+//	}
+//	
 	public long getId() {
 		return id;
 	}

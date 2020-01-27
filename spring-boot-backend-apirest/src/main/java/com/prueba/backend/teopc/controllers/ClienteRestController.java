@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -52,6 +54,8 @@ public class ClienteRestController {
 
 	@Autowired
 	private IClienteService clienteService;
+	
+	private final Logger log = LoggerFactory.getLogger(ClienteRestController.class);
 
 	/**
 	 * Se mapea clientes y antes de el va el api del request indicado
@@ -231,6 +235,7 @@ public class ClienteRestController {
 			//ese replace es para reemplazar espacios en blancos por nada
 			String nombreArchivo =UUID.randomUUID().toString()+"_"+ archivo.getOriginalFilename().replace(" ", "");
 			Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
+			log.info(rutaArchivo.toString());
 			try {
 				Files.copy(archivo.getInputStream(),rutaArchivo);
 			}catch (IOException e) {
@@ -264,6 +269,7 @@ public class ClienteRestController {
 	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto)
 	{
 		Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
+		log.info(rutaArchivo.toString());
 		Resource recurso = null;
 		try {
 		recurso = new UrlResource(rutaArchivo.toUri());

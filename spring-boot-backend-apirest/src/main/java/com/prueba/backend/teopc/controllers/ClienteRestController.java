@@ -10,12 +10,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -252,6 +257,29 @@ public class ClienteRestController {
 			response.put("mensaje", "has subido correctamente la imagen "+nombreArchivo);
 		}
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED) ;
+	}
+	
+	//metodo que permite ver la imagen, metodo hadler
+	@GetMapping("/uploads/img/{nombreFoto}")
+	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto)
+	{
+		Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
+		Resource recurso = null;
+		try {
+		recurso = new UrlResource(rutaArchivo.toUri());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(!recurso.exists()&&!recurso.isReadable())
+		{
+			throw new RuntimeException("no se pudo cargar la imagen: "+nombreFoto);
+		}
+		//con la cabecera se forza la descarga, lo hace el attachment, content disposition es para descargar e utilziar la imagen
+		HttpHeaders cabecera = new HttpHeaders();
+		cabecera.add(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename=\""+recurso.getFilename()+"\"");
+		
+		return new ResponseEntity<Resource>(recurso,cabecera,HttpStatus.OK);
 	}
 
 }

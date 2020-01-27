@@ -1,7 +1,16 @@
 <ul *ngIf="paginas?.length>0" class="pagination">
-    <li class="page-item" *ngFor="let pagina of paginas">
+     <!-- mientras no sea la primera pagina se muestra para cambiar a la pagina siguiente -->
+     <li class="page-item" *ngIf="paginador.number > 0">
+        <a class="page-link" [routerLink]="['/clientes/page',paginador.number-1]">&laquo;</a>
+    </li>
+    <!-- ese ngclass paginador es para desabilitar la mano de link en el item numero de paginas actuales -->
+    <li class="page-item" *ngFor="let pagina of paginas" [ngClass]="pagina-1==paginador.number?'disabled':''">
        <!-- pagina -1 por que empieza en 0 , paginador es el json de paginador, y el tiene number quedice la pagina actual etc-->
     <span *ngIf="pagina-1 == paginador.number" class="page-link">{{pagina}}</span>
     <a *ngIf="pagina-1 != paginador.number" class="page-link" [routerLink]="['/clientes/page',pagina-1]"> {{pagina}}</a> 
+    </li>
+    <!-- mientras no sea la ultima pagina se muestra para cambiar a la pagina siguiente -->
+    <li class="page-item" *ngIf="paginador.number < paginador.totalPages-1">
+        <a class="page-link" [routerLink]="['/clientes/page',paginador.number+1]">&raquo;</a>
     </li>
 </ul>

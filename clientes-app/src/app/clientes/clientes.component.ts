@@ -4,6 +4,7 @@ import { ClienteService } from './cliente.service';
 import Swal from 'sweetalert2';
 import {map,catchError,tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
+import { ModalService } from './detalle/modal.service';
 
 @Component({
   selector: 'app-clientes',
@@ -13,8 +14,9 @@ export class ClientesComponent implements OnInit {
 
   clientes:Cliente[];
   paginador:any;
+  clienteSeleccionado:Cliente;
 
-  constructor(private clienteService:ClienteService,private activatedRouted:ActivatedRoute)
+  constructor(private clienteService:ClienteService,private activatedRouted:ActivatedRoute,private modalService:ModalService)
   { 
 
   }
@@ -93,5 +95,10 @@ export class ClientesComponent implements OnInit {
     })
   }
 
+  abrirModal(cliente:Cliente)
+  {
+    this.clienteSeleccionado = cliente;
+    this.modalService.abrirModal();
+  }
 
 }

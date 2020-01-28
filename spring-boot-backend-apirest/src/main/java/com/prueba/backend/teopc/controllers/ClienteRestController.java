@@ -55,6 +55,7 @@ public class ClienteRestController {
 	@Autowired
 	private IClienteService clienteService;
 	
+	//este log es como el console.log para emprimir en consola desde este backend
 	private final Logger log = LoggerFactory.getLogger(ClienteRestController.class);
 
 	/**
@@ -267,7 +268,7 @@ public class ClienteRestController {
 	//metodo que permite ver la imagen, metodo hadler
 	@GetMapping("/uploads/img/{nombreFoto}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto)
-	{
+		{
 		Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
 		log.info(rutaArchivo.toString());
 		Resource recurso = null;

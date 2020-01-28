@@ -25,7 +25,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let c of clientes">
-          <td>{{c.id}}</td>
+          <td><button type="button" [routerLink]="['/clientes/ver',c.id]"
+            class="btn btn-success btn-sm">{{c.id}}</button></td>
           <td>{{c.nombre}}</td>
           <td>{{c.apellido | uppercase}}</td>
           <!-- locale_id es para cambiar el lenguaje incluido el de los pipes -->

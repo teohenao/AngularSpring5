@@ -31,14 +31,26 @@ export class DetalleComponent implements OnInit {
   {
     this.fotoSeleccionada = event.target.files[0];
     console.log(this.fotoSeleccionada);
+    //indexOf busca en la cadena algo relacionado con un image, si lo encuentra retorna la posicion en que se encuentra, la primera ocurrencia
+    if(this.fotoSeleccionada.type.indexOf('image')<0)
+    {
+      Swal.fire('Error','debe seleccionar una imagen valida','error');
+      this.fotoSeleccionada = null;
+    }
   }
 
   subirFoto()
   {
-    this.clienteService.subirFoto(this.fotoSeleccionada,this.cliente.id).subscribe(cliente=>{
-      this.cliente = cliente;
-      Swal.fire('La foto se ha subido correctamente','exito','success');
-    })
+    if(!this.fotoSeleccionada)
+    {
+      Swal.fire('Error','debe seleccionar una foto','error');
+    }else{
+      this.clienteService.subirFoto(this.fotoSeleccionada,this.cliente.id).subscribe(cliente=>{
+        this.cliente = cliente;
+        Swal.fire('La foto se ha subido correctamente','exito','success');
+      })
+    }
+   
   }
 
 }

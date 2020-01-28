@@ -129,7 +129,7 @@ subirFoto(archivo:File, id):Observable<Cliente>
   let formData = new FormData();
   formData.append("archivo",archivo);
   formData.append("id",id);
-  return this.http.post(`${this.urlEndPoint}/upload/`,formData).pipe(
+  return this.http.post(`${this.urlEndPoint}/upload`,formData).pipe(
     map((response:any)=>response.cliente as Cliente),
     catchError(e=>{
       console.error(e.error.mensaje);

@@ -50,6 +50,7 @@ public class Cliente implements Serializable{
 	private String foto;
 	
 	//LAZY CARGA PEREZOSA, cada vez que se invoca el region, se realiza la carga de resto no, con lazy segenera un proxy por lo tanto es necesario excluirlos con JsonIgnore
+	@NotNull(message = "la region no puede ser vacia")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "region_id")
 	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})

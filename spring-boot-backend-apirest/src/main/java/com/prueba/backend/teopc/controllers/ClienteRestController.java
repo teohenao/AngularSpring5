@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.prueba.backend.teopc.models.entity.Cliente;
+import com.prueba.backend.teopc.models.entity.Region;
 import com.prueba.backend.teopc.models.services.IClienteService;
 import com.prueba.backend.teopc.models.services.IUploadFileService;
 
@@ -62,6 +63,8 @@ public class ClienteRestController {
 	{
 		return clienteService.findAll();
 	}
+	
+	
 	
 	/**
 	 * paginando los registros 
@@ -180,6 +183,7 @@ public class ClienteRestController {
 			clienteActual.setNombre(cliente.getNombre());
 			clienteActual.setEmail(cliente.getEmail());
 			clienteActual.setCreateAt(cliente.getCreateAt());
+			clienteActual.setRegion(cliente.getRegion());
 			clienteActualizado = clienteService.save(clienteActual);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Ocurrio un error en la bd");
@@ -256,5 +260,12 @@ public class ClienteRestController {
 		
 		return new ResponseEntity<Resource>(recurso,cabecera,HttpStatus.OK);
 	}
+	
+	@GetMapping("/clientes/regiones")
+	public List<Region> listarRegiones()
+	{
+		return clienteService.findAllRegiones();
+	}
+	
 
 }

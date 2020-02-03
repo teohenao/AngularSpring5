@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.prueba.backend.teopc.models.dao.IClienteDao;
 import com.prueba.backend.teopc.models.entity.Cliente;
+import com.prueba.backend.teopc.models.entity.Region;
 
 @Service
 public class ClienteServiceImplement implements IClienteService {
@@ -54,6 +55,12 @@ public class ClienteServiceImplement implements IClienteService {
 	@Transactional
 	public void delete(Long id) {
 		clienteDao.deleteById(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Region> findAllRegiones() {
+		return clienteDao.findAllRegiones();
 	}
 
 

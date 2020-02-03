@@ -26,8 +26,15 @@
       </thead>
       <tbody>
         <tr *ngFor="let c of clientes">
-          <td><button type="button" (click)="abrirModal(c)"
-            class="btn btn-success btn-sm">{{c.id}}</button></td>
+          <td> <img (click)="abrirModal(c)" *ngIf="c?.foto" src="http://localhost:8080/api/uploads/img/{{c.foto}}"
+            alt="{{c.foto}}" class="img-thumbnail rounded"
+            style="width: 64px;cursor: pointer;">
+
+            <!-- esta imagen se encuentra en una carpeta en el backend y se llama por medio del directorio del prouecto -->
+            <img (click)="abrirModal(c)" *ngIf="!c?.foto" src="http://localhost:8080/images/no-usuario.png"
+            alt="sin foto" class="img-thumbnail rounded"
+            style="width: 64px;cursor: pointer;">
+          </td>
           <td>{{c.nombre}}</td>
           <td>{{c.apellido | uppercase}}</td>
           <!-- locale_id es para cambiar el lenguaje incluido el de los pipes -->

@@ -280,7 +280,14 @@ public class ClienteRestController {
 		
 		if(!recurso.exists()&&!recurso.isReadable())
 		{
-			throw new RuntimeException("no se pudo cargar la imagen: "+nombreFoto);
+			//si no tiene foto se le asigna  por defecto una generica 
+			rutaArchivo = Paths.get("src/main/resources/static/images").resolve("no-usuario.png").toAbsolutePath();
+			try {
+				recurso = new UrlResource(rutaArchivo.toUri());
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			log.error("no se pudo cargar la imagen: "+nombreFoto);
 		}
 		//con la cabecera se forza la descarga, lo hace el attachment, content disposition es para descargar e utilziar la imagen
 		HttpHeaders cabecera = new HttpHeaders();

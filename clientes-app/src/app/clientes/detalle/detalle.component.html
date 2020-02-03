@@ -1,5 +1,6 @@
+<div *ngIf="modalService.modal"  class="abrir-modal animacion fadeIn">
 <!-- modal service es el encargado de tener la bandera que dice si se muestra o no el modal -->
-<div style="display:block;" *ngIf="modalService.modal" class="modal" tabindex="-1" role="dialog">
+<div style="display:block;"  class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -52,4 +53,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>

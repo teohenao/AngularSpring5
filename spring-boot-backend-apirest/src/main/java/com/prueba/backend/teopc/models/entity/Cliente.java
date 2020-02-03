@@ -5,9 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 //import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,6 +19,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="clientes")
@@ -44,7 +49,13 @@ public class Cliente implements Serializable{
 	
 	private String foto;
 	
-	//Prepersist es el encargado de que antes de persistir el cliente se ejecute este metodo
+	//LAZY CARGA PEREZOSA, cada vez que se invoca el region, se realiza la carga de resto no, con lazy segenera un proxy por lo tanto es necesario excluirlos con JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "region_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+	private Region region;
+	
+//Prepersist es el encargado de que antes de persistir el cliente se ejecute este metodo
 //	@PrePersist
 //	public void prePersist()
 //	{
@@ -88,6 +99,14 @@ public class Cliente implements Serializable{
 	}
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+
+
+	public Region getRegion() {
+		return region;
+	}
+	public void setRegion(Region region) {
+		this.region = region;
 	}
 
 

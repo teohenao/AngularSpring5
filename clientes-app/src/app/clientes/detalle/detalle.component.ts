@@ -60,6 +60,10 @@ export class DetalleComponent implements OnInit {
         }else if(event.type === HttpEventType.Response){
           let response:any = event.body;
           this.cliente = response.cliente as Cliente;
+
+          // actualizar la lista al subir una foto por medio del eventEmmit de emitit
+          this.modalService.notificarSubirArchivo.emit(this.cliente);
+
           Swal.fire('La foto se ha subido correctamente',response.mensaje,'success');
         }
       })

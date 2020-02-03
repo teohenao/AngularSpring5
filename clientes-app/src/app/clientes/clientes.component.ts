@@ -49,6 +49,17 @@ export class ClientesComponent implements OnInit {
       //clientes => this.clientes = clientes, se puede aca o en el tap como queramos, se necesita el subscribe por que si no no puede trabajar el observable 
       });
     });
+    
+    // nos subscribimos a la nueva foto subida para actualizar la lista inmediatamente al subirla 
+    this.modalService.notificarSubirArchivo.subscribe(cliente =>{
+      // el map permite por cada cliente cambiar o modificar, es una especie de for pero web
+      this.clientes = this.clientes.map(clienteOriginal=>{
+        if(cliente.id == clienteOriginal.id){
+          clienteOriginal.foto = cliente.foto;
+        }
+        return clienteOriginal;
+      });
+    });
   }
 
   delete(cliente:Cliente):void

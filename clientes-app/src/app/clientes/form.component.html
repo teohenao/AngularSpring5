@@ -64,6 +64,15 @@
                 </div>
             </div>
             <div class="form-group row">
+                <label class="col-form-label col-sm-2" for="createAt">Region</label>
+                <div class="col-sm-6">
+                <select class="form-control" [(ngModel)]="cliente.createAt" name="createAt" style="width: 500px;">
+                    <!-- el ngValue hace referencia al valor que se le asigna en el for -->
+                    <option *ngFor="let region of regiones" [ngValue]="region">{{region.nombre}}</option>
+                </select>
+                </div>
+            </div>
+            <div class="form-group row">
                 <div class="col-sm-6">
                 <!-- ng template se usa para mostrar un boton en forma de template debido a un condicional -->
                 <!-- disabled es para desabilitar el boton hasta que se cumplan las condiciones e los campos -->

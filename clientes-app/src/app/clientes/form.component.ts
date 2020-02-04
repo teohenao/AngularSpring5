@@ -30,6 +30,13 @@ export class FormComponent implements OnInit {
     })
   }
 
+  // metodo que se encarga de dejar seleccionado la region si el usuario ya trae una, en editar
+  compararRegion(obj1:Region,obj2:Region):boolean
+  {
+    // entre 2 y 3 = la diferencia es que con tres es mas estricto respecto al tipo
+    return  obj1 === undefined || obj2 === undefined || obj1 === undefined || obj2 === undefined ? false : obj1.id === obj2.id;
+  }
+
   cargarCliente():void
   {
 this.activateRoute.params.subscribe(params=>

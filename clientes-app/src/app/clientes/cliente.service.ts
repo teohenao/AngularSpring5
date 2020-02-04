@@ -7,6 +7,7 @@ import {map,catchError,tap} from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import {DatePipe} from '@angular/common';
 import {Router} from '@angular/router'
+import { Region } from './region.js';
 
 
 @Injectable()
@@ -18,6 +19,9 @@ export class ClienteService {
 
   constructor(private http:HttpClient,private router:Router) { }
 
+  getRegiones():Observable<Region[]>{
+    return this.http.get<Region[]>(this.urlEndPoint+'/regiones');
+  }
 
 
   //observable y observadores, se subscriben a este cambio, es el patron de diseño observador

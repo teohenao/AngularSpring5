@@ -3,6 +3,7 @@ import { Cliente } from './cliente';
 import Swal from 'sweetalert2';
 import { ClienteService } from './cliente.service';
 import {Router,ActivatedRoute} from '@angular/router'
+import { Region } from './region';
 
 @Component({
   selector: 'app-form',
@@ -15,11 +16,18 @@ export class FormComponent implements OnInit {
   //atributo que tiene el arreglo de errores de campos en mensajes
   private errores:string[];
 
+  //lista de las regiones
+  regiones:Region[];
+
   constructor(private clienteService:ClienteService,private route:Router,private activateRoute:ActivatedRoute) { }
 
   ngOnInit() {
     //para cargar el cliente seleccionado
     this.cargarCliente();
+
+    this.clienteService.getRegiones().subscribe(regiones =>{
+      this.regiones = regiones;
+    })
   }
 
   cargarCliente():void

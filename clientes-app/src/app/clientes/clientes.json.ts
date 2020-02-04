@@ -1,4 +1,4 @@
-import { Cliente } from "./cliente";
+//import { Cliente } from "./cliente";
 
 // export const CLIENTES: Cliente[]=[
 //     {id:1,nombre:'Andres',apellido:'Rodriguez',createAt:'2019-12-11',email:'andres@gmail.com'},

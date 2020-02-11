@@ -16,8 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import ch.qos.logback.classic.db.names.ColumnName;
-
 //el implements serializable es para trabajar con el objeto como json o peticiones http
 @Entity
 @Table(name = "usuarios")

@@ -12,8 +12,8 @@ public interface IUsuarioDao extends CrudRepository<Usuario, Long>{
 	//la nombrada del metodo es importante si queremos pasar mas parametros podemos colocar findByUserNameAndEmailOrEjemplo, y asi y pasar los parametros que queramos asi	
 	public Usuario findByUsername(String username);
 	
-	//ejemplo con query 1 es el parametro uno o los que uno quiera pasar	
-	@Query("select u from Usuario u where u.username=?1 and u.otro?2")
+	//ejemplo con query 1 es el parametro uno o los que uno quiera pasar 1, 2, 3	
+	@Query("select u from Usuario u where u.username=?1")
 	public Usuario findByUsername2(String username);
 	
 

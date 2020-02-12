@@ -40,8 +40,10 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
 		JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-		//llave secreta del token que corresponde a la aplicacion 		
-		jwtAccessTokenConverter.setSigningKey(JwtConfig.LLAVE_SECRETA);
+		//llave secreta del token que corresponde a la aplicacion, o puede ser el firmante que es la llave privada 		
+		jwtAccessTokenConverter.setSigningKey(JwtConfig.RSA_PRIVATE);
+		//llave que valida, es la llave publica que generamos con el RSA
+		jwtAccessTokenConverter.setVerifierKey(JwtConfig.RSA_PUBLICA);
 		return jwtAccessTokenConverter;
 	}
 

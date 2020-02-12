@@ -54,4 +54,50 @@ https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-sec
     <artifactId>jaxb-runtime</artifactId>
 </dependency>
 
+https://wiki.openssl.org/index.php/Binaries    //necesario para asignar el certificado RSA para firmar el token JWT
+openssl genrsa -out jwt.pem   //comando para generar la clave ssl que se va a utilizar, jwt.pem es el nombre del archivo a generar
+openssl rsa -in jwt.pem       //para adquirir la llave privada
+openssl rsa -in jwt.pem -pubout //para mostrar la llave publica
+
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEAwCZayDzx9w/f92l6zuJIDinLStiFxg7OAQ7MMOuN2Up+pCvO
+oswAi9whKIO0cnCRgXOtOXAlTCAifCzMX/qtYC/dLZBhGVD327fLjLSIYlN+7aAC
+/4HOgHsxouz8mmuZILxnW66CfItiBfnozt5trd+kKcjI683fA6O8TTsacYkODAQl
+OMotJaY3JRcTfdAfqiCQwaQRqPwmpk9q3/m/datPyYgIc5n0z3qOac/vqm+80RC+
+t+nipSFl9BQlFX3PJIPYDGq8mRrKE86HjFPgDqeKIm9Dg3HCBQmBVY2qIlVKYBcx
+oxyi6rfLI13QnGN4OGu+xqSSvh8uA6vxKJHUMQIDAQABAoIBAQCpHpj0eL+25mAH
+0OzoPj2RSbPGMoC7a7hhMfcCb7CvuWNxd6UtoEQy1RLSJ+mgd/d5aqjiTxRkxjvT
+81IGgAotCLOxMMxljeA5oLElLJiFglvLJfS9kjCA4O01K0TBXUavi2OlTBlJKRyj
+iewgd6EtUhOZO0GsWcyZ1XkcuJJzrdeNfd6oKcMkrnReNdSgUISVEpKbbnCbTRVK
+zjJQNqxMqDS7gYgtO31YhammFgvwGttPVRDiVzqOw1uWWunbK11fNR3kqPm4J7fS
+QL8+erkm4Ck4OAEFKlEqJjzDhdrhkESdHJql4re6yoY7D/4EKJYQT+wVFfQ5pT7A
+JJGRcOzhAoGBAPLFX8k58qxp8Ye+4uWKm1Wpu9w11zg77LYnf5T6KahioXm4Uws2
+NDSWJKYVcNw1LmKhRHXvhiu49r9SEd3JaS7XX43YoLZ8ZeMWIfTvPRDYpJG4POxA
+fLzE6hZC7yHuHEvuLrXUYNJoTdDWL76vliBmfg7IHDdws9GMTv21/LS9AoGBAMqe
+0j+5dpGB4z7ND5sJ3LlKFDL2L7HyEoRRB8lWA1/10w3/bTsGJzTLtZoGPnSm/ojS
+WyND9tWd3FWMr5hj6GuHi5rDn/4+JV+XulMChKeZGaqha1RswiGpSo2Dfu5Ikh6d
+gL0yXQ/sbkl9BaABquJrMd09rZq+Jm9yR69LsYaFAoGBAJ/AzhVmspBObwf6zuhp
+22n1dY+lRmjU1iHPwB7St9L8hHHKn6sDEjuAicFY3pmpzUpOAPTyl4HyBz1Czkr6
+HOMcCt8WrDsphQp4KAQ74h1R0ompiT2V+f9mPPxFM4NKYwh8RfSVOtl6lapVJ7n9
+ZXcQuucTO64n1cyQ3fIKba6pAoGABVVK2WyLR2cw0Q1atMz8p0/g2jqKpNdnT15G
+ozEFY7g3tu2bNWuDCqu1+vjhGfbvSjCnP3VhgNvn2cSbNpqimnn13bv6cRm3qB15
+RQgS78pi14/qIE3AilxHXxQv+huk5PNmWRSDSJEDkiGdTUnd8pm5tUYTVLhekJ5k
+bqPCZ3UCgYBK3lorHHb3QrBXvUWxshW4yt1x29COsew4t0Vkwq5zEhC3D2Qit8CK
+dlg/2QYAithcKGO6WfU+IKIBSIEQN0pOoRk9ZevKe+ZvS5J+ziyWzDFtT2/uhAwV
+huS4p3nLMV4E9PEplfjgRgjDgpqsXFDMyvRw1HqjO5jEDoiZJERYVA==
+-----END RSA PRIVATE KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwCZayDzx9w/f92l6zuJI
+DinLStiFxg7OAQ7MMOuN2Up+pCvOoswAi9whKIO0cnCRgXOtOXAlTCAifCzMX/qt
+YC/dLZBhGVD327fLjLSIYlN+7aAC/4HOgHsxouz8mmuZILxnW66CfItiBfnozt5t
+rd+kKcjI683fA6O8TTsacYkODAQlOMotJaY3JRcTfdAfqiCQwaQRqPwmpk9q3/m/
+datPyYgIc5n0z3qOac/vqm+80RC+t+nipSFl9BQlFX3PJIPYDGq8mRrKE86HjFPg
+DqeKIm9Dg3HCBQmBVY2qIlVKYBcxoxyi6rfLI13QnGN4OGu+xqSSvh8uA6vxKJHU
+MQIDAQAB
+-----END PUBLIC KEY-----
+
+
+
+
 

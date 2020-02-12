@@ -3,7 +3,6 @@ package com.prueba.backend.teopc.models.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,7 +27,7 @@ public class Usuario implements Serializable {
 	@Column(unique = true, length = 20)
 	private String username;
 
-	@Column(length = 60)
+	//@Column(length = 60)
 	private String password;
 
 	private Boolean enabled;
@@ -41,7 +40,8 @@ public class Usuario implements Serializable {
 	private String email;
 
 	// carga perezosa con lazy y cascade para la eliminacion, la relacion de muchos a muchos, se puede hacer desde ambos lados o desde un solo lado como uno prefiera
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
+	//, cascade = CascadeType.ALL si uno quiere eliminar en cascada
 	//se pueden modificar los nombres de las columnas foraneas y de la tabla intermedia asi:	
 	@JoinTable(name = "usuarios_roles",
 	joinColumns = @JoinColumn(name = "usuario_id"),

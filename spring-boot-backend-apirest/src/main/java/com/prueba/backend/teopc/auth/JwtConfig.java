@@ -1,5 +1,6 @@
 package com.prueba.backend.teopc.auth;
 
+//clase que contiene la llave privada y publica de RSA para ser agregada al token y tener mas seguridad
 public class JwtConfig {
 
 	//CLAVE SECRETA DE LA APLICACION EN EL MOMENTO DE GENERAR EL TOKEN CON LOS DEMAS DATOS -clave mac-	

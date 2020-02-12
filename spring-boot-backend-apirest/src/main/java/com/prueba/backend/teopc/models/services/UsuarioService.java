@@ -18,7 +18,7 @@ import com.prueba.backend.teopc.models.dao.IUsuarioDao;
 import com.prueba.backend.teopc.models.entity.Usuario;
 
 @Service
-public class UsuarioService implements UserDetailsService {
+public class UsuarioService implements UserDetailsService,IUsuarioService {
 	
 	private Logger logger = org.slf4j.LoggerFactory.getLogger(UsuarioService.class);
 
@@ -46,6 +46,11 @@ public class UsuarioService implements UserDetailsService {
 				.collect(Collectors.toList());
 		//User es una libreria para trabajar con usuarios generales		
 		return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnabled(), true, true, true, authorities);
+	}
+
+	@Override
+	public Usuario findByUsername(String username) {
+		return usuarioDao.findByUsername(username);
 	}
 
 }

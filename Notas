@@ -5,7 +5,7 @@ ng g class 'nombre de la clase'  crear una clase component ts 'creo'
 ng generate component directiva  alias 'g c' para crear componentes
 ng g c 'carpeta/nombre' --flat   para crear componente en una carpeta ya exist
 
-ng g service cliente             crear servicio
+ng g service cliente           crear servicio
 
 
 npm install bootstrap@4.0.0-beta.2 jquery.js --save  instalar booststrap por npm

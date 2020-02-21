@@ -19,7 +19,7 @@ public class SpringBootBackendApirestApplication implements CommandLineRunner{
 	//metodo para ejecutar algo antes de arrancar la aplicacion	,metodo para codificar contrasenias
 	@Override
 	public void run(String... args) throws Exception {
-		String password ="12345";
+		String password ="12345678";
 		for (int i = 0; i < 4; i++) {
 			String passwordBCypt = contraseniaCodificada.encode(password);
 			System.out.println(passwordBCypt);

@@ -3,9 +3,9 @@
 <div class="card-body">
     <form method="post">
         <div class="form-group col-sm-6">
-            <input type="text" class="form-control" name="username" id="username" placeholder="nombre usuario" autofocus required>
-            <input type="password" class="form-control" name="password" id="password" placeholder="clave" required>
-            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Login">
+            <input [(ngModel)]="usuario.username" type="text" class="form-control" name="username" id="username" placeholder="nombre usuario" autofocus required>
+            <input [(ngModel)]="usuario.password" type="password" class="form-control" name="password" id="password" placeholder="clave" required>
+            <input (click)="login()" type="submit" class="btn btn-lg btn-primary btn-block" value="Login">
         </div>
     </form>
 </div>

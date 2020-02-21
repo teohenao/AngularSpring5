@@ -19,7 +19,12 @@ export class ClienteService {
   constructor(private http:HttpClient,private router:Router) { }
 
   getRegiones():Observable<Region[]>{
-    return this.http.get<Region[]>(this.urlEndPoint+'/regiones');
+    return this.http.get<Region[]>(this.urlEndPoint+'/regiones').pipe(
+      catchError(e =>{
+        this.isNoAutorizado(e);
+        return throwError(e);
+      })
+    );
   }
 
 
@@ -76,6 +81,14 @@ create(cliente:Cliente) :Observable<Cliente>
     //Este map lo utilizamos para convertir un objeto que existe en el json, en objeto cliente
     map((JSONObj:any)=>JSONObj.cliente as Cliente),
     catchError(e=>{
+      if(this.isNoAutorizado(e))
+      {
+        return throwError(e);
+      }
+      if(e.status == 400)
+      {
+        return throwError(e);
+      }
       console.error(e.error.mensaje);
       Swal.fire('Error al crear cliente',e.error.mensaje,'error');
       return throwError(e);
@@ -87,6 +100,10 @@ getCliente(id):Observable<Cliente>
 {
   return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
     catchError(e => {
+      if(this.isNoAutorizado(e))
+      {
+        return throwError(e);
+      }
       //error 400 viene de la validacion de campos desde backend
       if(e.status==400)
       {
@@ -105,6 +122,10 @@ update(cliente:Cliente):Observable<any>
 {
   return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`,cliente,{headers:this.httpHeaders}).pipe(
     catchError(e=>{
+      if(this.isNoAutorizado(e))
+      {
+        return throwError(e);
+      }
       //error 400 viene de la validacion de campos desde backend
       if(e.status==400)
       {
@@ -120,6 +141,10 @@ delete(id:number):Observable<Cliente>
 {
   return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`,{headers:this.httpHeaders}).pipe(
     catchError(e=>{
+      if(this.isNoAutorizado(e))
+      {
+        return throwError(e);
+      }
       console.error(e.error.mensaje);
       Swal.fire('Error al eliminar cliente',e.error.mensaje,'error');
       return throwError(e);
@@ -136,6 +161,23 @@ subirFoto(archivo:File, id):Observable<HttpEvent<{}>>
   const req = new HttpRequest('POST',`${this.urlEndPoint}/upload`,formData,{
     reportProgress:true
   })
-  return this.http.request(req);
+  return this.http.request(req).pipe(
+    catchError(e =>{
+      this.isNoAutorizado(e);
+      return throwError(e);
+    })
+  );
 }
+
+private isNoAutorizado(e):boolean
+{
+  //401 es no autorizado, 403 es forgiben osea recurso no autorizado
+  if(e.status==401 || e.status ==403)
+  {
+    this.router.navigate(['/login'])
+    return true;
+  }
+  return false;
+}
+
 }

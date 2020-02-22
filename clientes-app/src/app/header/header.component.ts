@@ -16,10 +16,10 @@ export class HeaderComponent
     constructor(private authService:AuthService,private router:Router){
 
     }
-
-    logout():void{
+    logout(): void {
+        let username = this.authService.usuario.username;
         this.authService.logout();
-        Swal.fire('bye bye','hasta luego baby','info');
+        Swal.fire('Logout', `Hola ${username}, has cerrado sesión con éxito!`, 'success');
         this.router.navigate(['/login']);
-    }
+      }
 }

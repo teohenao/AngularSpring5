@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import {DatePipe} from '@angular/common';
 import {Router} from '@angular/router'
 import { Region } from './region.js';
+import { AuthService } from '../usuarios/auth.service.js';
 
 
 @Injectable()
@@ -16,10 +17,23 @@ export class ClienteService {
 
   private httpHeaders = new HttpHeaders({'Content-Type':'Application/json'});
 
-  constructor(private http:HttpClient,private router:Router) { }
+  constructor(private http:HttpClient,private router:Router,private authService:AuthService) { }
+
+  private agregarAutorizacion()
+  {
+    let token = sessionStorage.getItem('token');
+    console.log("el token es en agregar autorizacion : "+token);
+    console.log("el token es en el service : "+this.authService.obtenerToken())
+    if(token != null)
+    {
+      //append es por que httpheaders es unmutable entonces crea un nueva instancia
+      return this.httpHeaders.append('Authorization','Bearer '+token.toString());
+    }
+    return this.httpHeaders;
+  }
 
   getRegiones():Observable<Region[]>{
-    return this.http.get<Region[]>(this.urlEndPoint+'/regiones').pipe(
+    return this.http.get<Region[]>(this.urlEndPoint+'/regiones',{headers:this.agregarAutorizacion()}).pipe(
       catchError(e =>{
         this.isNoAutorizado(e);
         return throwError(e);
@@ -77,7 +91,7 @@ export class ClienteService {
 
 create(cliente:Cliente) :Observable<Cliente>
 {
-  return this.http.post(this.urlEndPoint,cliente,{headers:this.httpHeaders}).pipe(
+  return this.http.post(this.urlEndPoint,cliente,{headers:this.agregarAutorizacion()}).pipe(
     //Este map lo utilizamos para convertir un objeto que existe en el json, en objeto cliente
     map((JSONObj:any)=>JSONObj.cliente as Cliente),
     catchError(e=>{
@@ -98,7 +112,7 @@ create(cliente:Cliente) :Observable<Cliente>
 
 getCliente(id):Observable<Cliente>
 {
-  return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
+  return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`,{'headers':this.agregarAutorizacion()}).pipe(
     catchError(e => {
       if(this.isNoAutorizado(e))
       {
@@ -120,7 +134,7 @@ getCliente(id):Observable<Cliente>
 //el observable de tipo any para que poder trabajar con json
 update(cliente:Cliente):Observable<any>
 {
-  return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`,cliente,{headers:this.httpHeaders}).pipe(
+  return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`,cliente,{headers:this.agregarAutorizacion()}).pipe(
     catchError(e=>{
       if(this.isNoAutorizado(e))
       {
@@ -139,7 +153,7 @@ update(cliente:Cliente):Observable<any>
 }
 delete(id:number):Observable<Cliente>
 {
-  return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`,{headers:this.httpHeaders}).pipe(
+  return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`,{headers:this.agregarAutorizacion()}).pipe(
     catchError(e=>{
       if(this.isNoAutorizado(e))
       {
@@ -157,9 +171,21 @@ subirFoto(archivo:File, id):Observable<HttpEvent<{}>>
   let formData = new FormData();
   formData.append("archivo",archivo);
   formData.append("id",id);
+
+  //para agregar la autorizacion es distinto 
+  let httpHeaders = new HttpHeaders();
+  let token = this.authService.obtenerToken();
+  if(token != null)
+  {
+    //debe asignarse a httpheader por que append crea una nueva instancia a eso le dicen inmutable
+   httpHeaders = httpHeaders.append('Authorization','Bearer '+token);
+  }
+
   //para la el progreso de la imagen
   const req = new HttpRequest('POST',`${this.urlEndPoint}/upload`,formData,{
-    reportProgress:true
+    reportProgress:true,
+    //PARA LA SEGURIDAD PASARALE EL TOKEN
+    headers:httpHeaders
   })
   return this.http.request(req).pipe(
     catchError(e =>{

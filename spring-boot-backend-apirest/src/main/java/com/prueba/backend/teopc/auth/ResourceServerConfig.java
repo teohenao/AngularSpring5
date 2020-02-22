@@ -26,16 +26,16 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		//rutas publicas que cualquier usuario puede acceder este o no loggeado
 		http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/clientes","/api/clientes/page/**","/api/uploads/img/**","/images/**").permitAll()
 
-// esto se cambio EN EL CONTROLADOR POR LA ANOTACION SECURE, cualquiera de las dos funciona	
+/* esto se cambio EN EL CONTROLADOR POR LA ANOTACION SECURE, cualquiera de las dos funciona	
 //		//permite obtener a usuarios y admin
-//		.antMatchers(HttpMethod.GET,"/api/clientes/{id}").hasAnyRole("ROL_USUARIO","ROL_ADMIN")
-//		.antMatchers(HttpMethod.POST,"/api/clientes/upload").hasAnyRole("ROL_USUARIO","ROL_ADMIN")
-//		//permite post a solo admin
-//		.antMatchers(HttpMethod.POST,"/api/clientes").hasRole("ROL_ADMIN") 
-//		//RUTA GENERICA, despues de lo que sigue de una ruta, va a ser de un rol, como un limite
-//		.antMatchers("/api/clientes/**").hasRole("ROL_ADMIN")
-//		//estas se colocan siempre al final para todas las reglas, significa que las rutas que no se colocaron aca necesitan tener autentificacion y no depende de rol
-		.anyRequest().authenticated()
+		.antMatchers(HttpMethod.GET,"/api/clientes/{id}").hasAnyRole("USUARIO","ADMIN")
+		.antMatchers(HttpMethod.POST,"/api/clientes/upload").hasAnyRole("USUARIO","ADMIN")
+		//permite post a solo admin
+		.antMatchers(HttpMethod.POST,"/api/clientes").hasRole("ADMIN") 
+		//RUTA GENERICA, despues de lo que sigue de una ruta, va a ser de un rol, como un limite
+		.antMatchers("/api/clientes/**").hasRole("ADMIN")
+		//estas se colocan siempre al final para todas las reglas, significa que las rutas que no se colocaron aca necesitan tener autentificacion y no depende de rol
+		*/.anyRequest().authenticated()
 		//necesario para el cors
 		.and().cors().configurationSource(corsConfigurationSource());
 	}

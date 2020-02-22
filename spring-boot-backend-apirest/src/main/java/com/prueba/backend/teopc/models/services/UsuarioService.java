@@ -42,7 +42,7 @@ public class UsuarioService implements UserDetailsService,IUsuarioService {
 				.map(role -> { 
 			return new SimpleGrantedAuthority(role.getNombre());
 			//con el peek mostramos informacion del rol de cada uno por consola si queremos			
-		}).peek(authority -> logger.info("ROle"+authority.getAuthority()))
+		}).peek(authority -> logger.info("Role"+authority.getAuthority()))
 				.collect(Collectors.toList());
 		//User es una libreria para trabajar con usuarios generales		
 		return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnabled(), true, true, true, authorities);

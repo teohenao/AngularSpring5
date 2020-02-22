@@ -85,7 +85,7 @@ public class ClienteRestController {
 	 * @param id
 	 * @return Cliente
 	 */
-	@Secured({"ROL_ADMIN","ROL_USUARIO"})
+	@Secured({"ROLE_ADMIN","ROLE_USUARIO"})
 	@GetMapping("/clientes/{id}")
 	@ResponseStatus(HttpStatus.OK) //ese ok si no lo colocamos es creado por defecto, esto es redundancia, solo se coloca si es una respuesta diferente y si uno quiere
 	public ResponseEntity<?> show(@PathVariable Long id)// ? es tipo de dato generic, que puede ser cualquiera, responseEntity se coloca por que puede devolver un error si el cliente no existe /id
@@ -115,7 +115,7 @@ public class ClienteRestController {
 	 * @param cliente
 	 * @return
 	 */
-	@Secured("ROL_ADMIN")
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/clientes")
 	// esto se quita por que varia entre si es o no creado  por eso el return entity -> @ResponseStatus(HttpStatus.CREATED)
 	//antes de Request le decimos que valide los campos con @Valid, es importante por que asi en entity diga sin esto no funciona, y result es para validar
@@ -159,7 +159,7 @@ public class ClienteRestController {
 		//fijese que se pasa el map para pasar la respuesta del objeto o mensaje en el servidor
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
 	}
-	@Secured("ROL_ADMIN")
+	@Secured("ROLE_ADMIN")
 	@PutMapping("/clientes/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente,BindingResult result, @PathVariable Long id)
 	{
@@ -199,7 +199,7 @@ public class ClienteRestController {
 		response.put("cliente", clienteActualizado);
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED) ;
 	}
-	@Secured("ROL_ADMIN")
+	@Secured("ROLE_ADMIN")
 	@DeleteMapping("/clientes/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id)
 	{
@@ -220,7 +220,7 @@ public class ClienteRestController {
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
 	}
 	
-	@Secured({"ROL_ADMIN","ROL_USUARIO"})
+	@Secured({"ROLE_ADMIN","ROLE_USUARIO"})
 	@PostMapping("/clientes/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo,@RequestParam("id") Long id)
 	{
@@ -265,7 +265,7 @@ public class ClienteRestController {
 		return new ResponseEntity<Resource>(recurso,cabecera,HttpStatus.OK);
 	}
 	
-	@Secured("ROL_ADMIN")
+	@Secured("ROLE_ADMIN")
 	@GetMapping("/clientes/regiones")
 	public List<Region> listarRegiones()
 	{

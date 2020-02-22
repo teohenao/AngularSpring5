@@ -45,10 +45,10 @@ public class Usuario implements Serializable {
 	//se pueden modificar los nombres de las columnas foraneas y de la tabla intermedia asi:	
 	@JoinTable(name = "usuarios_roles",
 	joinColumns = @JoinColumn(name = "usuario_id"),
-	inverseJoinColumns = @JoinColumn(name="rol_id"),
+	inverseJoinColumns = @JoinColumn(name="role_id"),
 	//uniqueConstraint se utiliza para que un usuario no pueda repetir un mismo rol, caso tal de que un usuario sea admin no se le pueda volver a asignar admin
-	uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario_id","rol_id"})})
-	private List<Rol> roles;
+	uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario_id","role_id"})})
+	private List<Role> roles;
 
 	public Long getId() {
 		return id;
@@ -60,6 +60,14 @@ public class Usuario implements Serializable {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	public void setUsername(String username) {
@@ -82,13 +90,7 @@ public class Usuario implements Serializable {
 		this.enabled = enabled;
 	}
 
-	public List<Rol> getRoles() {
-		return roles;
-	}
 
-	public void setRoles(List<Rol> roles) {
-		this.roles = roles;
-	}
 
 	public String getNombre() {
 		return nombre;

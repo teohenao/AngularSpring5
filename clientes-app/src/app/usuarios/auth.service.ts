@@ -29,12 +29,15 @@ export class AuthService {
     return new Usuario();
   }
 
-  public get token():string
-  {
-    if(this._token != null)
+
+
+  public obtenerToken():string{
+    if(this._token!=null )
     {
+      console.log("_token: "+this._token)
       return this._token;
-    }else if(this._token==null && sessionStorage.getItem('token')!=null)
+    }
+    else if(this._token==null && sessionStorage.getItem('token')!=null)
     {
       this._token = sessionStorage.getItem('token');
       return this._token;
@@ -48,8 +51,9 @@ export class AuthService {
     //btoa es para convertir en base 64
     const credenciales = btoa('angularapp'+':'+'12345');
 
-    const httpHeaders = new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded',
-  'Authorization':'Basic '+credenciales});
+    const httpHeaders = new HttpHeaders({
+      'Content-Type':'application/x-www-form-urlencoded',
+      'Authorization':'Basic '+credenciales});
 
   let params = new URLSearchParams();
   params.set('grant_type','password');
@@ -78,8 +82,10 @@ export class AuthService {
 
   guardarToken(accessToken:string):void
   {
+      console.log("epa           "+accessToken)
       this._token = accessToken;
       sessionStorage.setItem('token',this._token);
+      console.log("el token en guardar usuario es: "+this._token);
   }
 
   obtenerDatosToken(accessToken:string):any
@@ -93,7 +99,8 @@ export class AuthService {
 
   estaAutenticado():boolean
   {
-    let payload = this.obtenerDatosToken(this.token);
+    let payload = this.obtenerDatosToken(this.obtenerToken());
+    console.log(payload);
     if(payload != null && payload.user_name && payload.user_name.length>0)
     {
       return true;
@@ -101,11 +108,17 @@ export class AuthService {
     return false;
   }
 
-  logout():void{
-    this._token=null;
-    this._usuario=null;
-    //se elimina del session storage
-    sessionStorage.clear();
-    //tambien se puede eliminando cada una con el remove item que tiene sessionStorage ('token')
+  hasRole(role: string): boolean {
+    if (this.usuario.roles.includes(role)) {
+      return true;
+    }
+    return false;
+  }
+
+  logout(): void {
+    this._token = null;
+    this._usuario = null;
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('usuario');
   }
 }

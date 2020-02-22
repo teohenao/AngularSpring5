@@ -100,4 +100,12 @@ export class AuthService {
     }
     return false;
   }
+
+  logout():void{
+    this._token=null;
+    this._usuario=null;
+    //se elimina del session storage
+    sessionStorage.clear();
+    //tambien se puede eliminando cada una con el remove item que tiene sessionStorage ('token')
+  }
 }

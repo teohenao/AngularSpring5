@@ -198,9 +198,15 @@ subirFoto(archivo:File, id):Observable<HttpEvent<{}>>
 private isNoAutorizado(e):boolean
 {
   //401 es no autorizado, 403 es forgiben osea recurso no autorizado
-  if(e.status==401 || e.status ==403)
+  if(e.status== 401)
   {
     this.router.navigate(['/login'])
+    return true;
+  }
+  else if(e.status == 403)
+  {
+    Swal.fire("Acceso Denegado","que hace por aca ?",'error');
+    this.router.navigate(['/clientes'])
     return true;
   }
   return false;

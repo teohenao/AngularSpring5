@@ -198,11 +198,12 @@ subirFoto(archivo:File, id):Observable<HttpEvent<{}>>
 private isNoAutorizado(e):boolean
 {
   //401 es no autorizado, 403 es forgiben osea recurso no autorizado
-  if(e.status== 401)
+  if(e.status == 401)
   {
 
     //preguntamos si el token expiro, si expiro entonces cerramos
     if(this.authService.estaAutenticado()){
+      Swal.fire("Termino su session","vuelva ingrese por favor",'error');
       this.authService.logout();
     }
 

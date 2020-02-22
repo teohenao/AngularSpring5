@@ -23,6 +23,7 @@ import {MatDatepickerModule,MatButtonModule,MatFormFieldModule,MatInputModule,Ma
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DetalleComponent } from './clientes/detalle/detalle.component';
 import { LoginComponent } from './usuarios/login.component';
+import { AuthGuard } from './usuarios/guards/auth.guard';
 
 //internacionalizacion para el idioma de las fechas
 registerLocaleData(localeES,'es');
@@ -31,8 +32,8 @@ const routes:Routes=[
   {path:'directivas',component:DirectivaComponent},
   {path:'clientes',component:ClientesComponent},
   {path:'clientes/page/:page',component:ClientesComponent},
-  {path:'clientes/form',component:FormComponent},
-  {path:'clientes/form/:id',component:FormComponent},
+  {path:'clientes/form',component:FormComponent,canActivate:[AuthGuard]},//canActive es un arreglo ya que se pueden tener varios guard si uno quiere
+  {path:'clientes/form/:id',component:FormComponent,canActivate:[AuthGuard]},
   {path:'login',component:LoginComponent}
 ];
 

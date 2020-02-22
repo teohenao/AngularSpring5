@@ -17,8 +17,8 @@
         </li>
       </ul>
       <ul class="navbar-nav navbar-right">
-        <li *ngIf="!authService.estaAutenticado"><a routerLink="/login" class="btn btn-outline-primary">Login</a></li>
-      <li *ngIf="authService.estaAutenticado" class="dropdown">
+        <li *ngIf="!authService.estaAutenticado()"><a routerLink="/login" class="btn btn-outline-primary">Login</a></li>
+      <li *ngIf="authService.estaAutenticado()" class="dropdown">
         <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{authService.usuario.username}}
         </a>

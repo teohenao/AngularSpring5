@@ -200,6 +200,12 @@ private isNoAutorizado(e):boolean
   //401 es no autorizado, 403 es forgiben osea recurso no autorizado
   if(e.status== 401)
   {
+
+    //preguntamos si el token expiro, si expiro entonces cerramos
+    if(this.authService.estaAutenticado()){
+      this.authService.logout();
+    }
+
     this.router.navigate(['/login'])
     return true;
   }

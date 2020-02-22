@@ -13,7 +13,7 @@ import { FormComponent } from './clientes/form.component';
 //import para las rutas
 import { RouterModule, Routes } from '@angular/router';
 //impoort para las peticiones http, conectar back y front
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 //import formularios de angular
 import {FormsModule} from '@angular/forms'
 import localeES from '@angular/common/locales/es'
@@ -25,6 +25,7 @@ import { DetalleComponent } from './clientes/detalle/detalle.component';
 import { LoginComponent } from './usuarios/login.component';
 import { AuthGuard } from './usuarios/guards/auth.guard';
 import { RoleGuard } from './usuarios/guards/role.guard';
+import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
 
 //internacionalizacion para el idioma de las fechas
 registerLocaleData(localeES,'es');
@@ -61,7 +62,8 @@ const routes:Routes=[
     MatMomentDateModule,
     MatDatepickerModule,MatButtonModule,MatFormFieldModule,MatInputModule,MatRippleModule
   ],
-  providers: [ClienteService,{provide:LOCALE_ID,useValue:'es'}],
+  providers: [ClienteService,{provide:LOCALE_ID,useValue:'es'},
+              {provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

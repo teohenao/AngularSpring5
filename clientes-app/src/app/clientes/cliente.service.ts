@@ -15,25 +15,25 @@ export class ClienteService {
 
   private urlEndPoint:string = 'http://localhost:8080/api/clientes';
 
-  private httpHeaders = new HttpHeaders({'Content-Type':'Application/json'});
+  //private httpHeaders = new HttpHeaders({'Content-Type':'Application/json'}); se cambio por el interceptor token, el se encarga de enviarlo asi por defecto
 
   constructor(private http:HttpClient,private router:Router,private authService:AuthService) { }
 
-  private agregarAutorizacion()
-  {
-    let token = sessionStorage.getItem('token');
-    console.log("el token es en agregar autorizacion : "+token);
-    console.log("el token es en el service : "+this.authService.obtenerToken())
-    if(token != null)
-    {
-      //append es por que httpheaders es unmutable entonces crea un nueva instancia
-      return this.httpHeaders.append('Authorization','Bearer '+token.toString());
-    }
-    return this.httpHeaders;
-  }
+  // private agregarAutorizacion()  este metodo se cambio por el interceptor token
+  // {
+  //   let token = sessionStorage.getItem('token');
+  //   console.log("el token es en agregar autorizacion : "+token);
+  //   console.log("el token es en el service : "+this.authService.obtenerToken())
+  //   if(token != null)
+  //   {
+  //     //append es por que httpheaders es unmutable entonces crea un nueva instancia
+  //     return this.httpHeaders.append('Authorization','Bearer '+token.toString());
+  //   }
+  //   return this.httpHeaders;
+  // }
 
   getRegiones():Observable<Region[]>{
-    return this.http.get<Region[]>(this.urlEndPoint+'/regiones',{headers:this.agregarAutorizacion()}).pipe(
+    return this.http.get<Region[]>(this.urlEndPoint+'/regiones').pipe(
       catchError(e =>{
         this.isNoAutorizado(e);
         return throwError(e);
@@ -91,7 +91,7 @@ export class ClienteService {
 
 create(cliente:Cliente) :Observable<Cliente>
 {
-  return this.http.post(this.urlEndPoint,cliente,{headers:this.agregarAutorizacion()}).pipe(
+  return this.http.post(this.urlEndPoint,cliente).pipe(
     //Este map lo utilizamos para convertir un objeto que existe en el json, en objeto cliente
     map((JSONObj:any)=>JSONObj.cliente as Cliente),
     catchError(e=>{
@@ -112,7 +112,7 @@ create(cliente:Cliente) :Observable<Cliente>
 
 getCliente(id):Observable<Cliente>
 {
-  return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`,{'headers':this.agregarAutorizacion()}).pipe(
+  return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
     catchError(e => {
       if(this.isNoAutorizado(e))
       {
@@ -134,7 +134,7 @@ getCliente(id):Observable<Cliente>
 //el observable de tipo any para que poder trabajar con json
 update(cliente:Cliente):Observable<any>
 {
-  return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`,cliente,{headers:this.agregarAutorizacion()}).pipe(
+  return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`,cliente).pipe(
     catchError(e=>{
       if(this.isNoAutorizado(e))
       {
@@ -153,7 +153,7 @@ update(cliente:Cliente):Observable<any>
 }
 delete(id:number):Observable<Cliente>
 {
-  return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`,{headers:this.agregarAutorizacion()}).pipe(
+  return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
     catchError(e=>{
       if(this.isNoAutorizado(e))
       {
@@ -173,19 +173,19 @@ subirFoto(archivo:File, id):Observable<HttpEvent<{}>>
   formData.append("id",id);
 
   //para agregar la autorizacion es distinto 
-  let httpHeaders = new HttpHeaders();
-  let token = this.authService.obtenerToken();
-  if(token != null)
-  {
-    //debe asignarse a httpheader por que append crea una nueva instancia a eso le dicen inmutable
-   httpHeaders = httpHeaders.append('Authorization','Bearer '+token);
-  }
+  // let httpHeaders = new HttpHeaders(); se cambio por el interceptor token
+  // let token = this.authService.obtenerToken();
+  // if(token != null)
+  // {
+  //   //debe asignarse a httpheader por que append crea una nueva instancia a eso le dicen inmutable
+  //  httpHeaders = httpHeaders.append('Authorization','Bearer '+token);
+  // }
 
   //para la el progreso de la imagen
   const req = new HttpRequest('POST',`${this.urlEndPoint}/upload`,formData,{
     reportProgress:true,
-    //PARA LA SEGURIDAD PASARALE EL TOKEN
-    headers:httpHeaders
+    //PARA LA SEGURIDAD PASARALE EL TOKEN se cambio por el interceptor
+    //headers:httpHeaders
   })
   return this.http.request(req).pipe(
     catchError(e =>{

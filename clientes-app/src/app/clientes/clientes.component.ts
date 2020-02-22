@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import {map,catchError,tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import { ModalService } from './detalle/modal.service';
+import { AuthService } from '../usuarios/auth.service';
 
 @Component({
   selector: 'app-clientes',
@@ -16,7 +17,8 @@ export class ClientesComponent implements OnInit {
   paginador:any;
   clienteSeleccionado:Cliente;
 
-  constructor(private clienteService:ClienteService,private activatedRouted:ActivatedRoute,private modalService:ModalService)
+  constructor(private clienteService:ClienteService,private activatedRouted:ActivatedRoute,private modalService:ModalService
+    ,private authService:AuthService)
   { 
 
   }
@@ -60,6 +62,8 @@ export class ClientesComponent implements OnInit {
         return clienteOriginal;
       });
     });
+
+
   }
 
   delete(cliente:Cliente):void

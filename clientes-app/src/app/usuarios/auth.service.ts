@@ -108,7 +108,9 @@ export class AuthService {
     return false;
   }
 
+  //si tiene rol
   hasRole(role: string): boolean {
+    //si los nombres del usuario contiene ese nombre que le pasemos, include permite validar si existe algun elemento dentro de ese arreglo
     if (this.usuario.roles.includes(role)) {
       return true;
     }

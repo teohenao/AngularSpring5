@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "facturas")
 public class Factura implements Serializable{
@@ -36,12 +38,14 @@ public class Factura implements Serializable{
 	
 	//muchas facturas corresponden a un cliente
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({"facturas","hibernateLazyInitializer","handler"})//para que el json no entre en bug infinito
 	private Cliente cliente;
 	
 	//relacion unidimensional, esto quiere decir que no es necesario que la relacion este en items ya que no tiene sentido en la logica,
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	//como es unidimensional, y en la otra tabla no se crea el campo, es necesario crearlo desde aca
 	@JoinColumn(name = "factura_id")//esta llave foranea se crea en factura.item
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	private List<ItemFactura> items;
 	
 	

@@ -25,7 +25,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		//el orden es de lo mas especifico a lo mas generico de arriba hacia abajo en permisos		
 		//rutas publicas que cualquier usuario puede acceder este o no loggeado
 		http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/clientes","/api/clientes/page/**","/api/uploads/img/**","/images/**").permitAll()
-
+		.antMatchers("/api/clientes/{id}").permitAll()
+		.antMatchers("/api/facturas/**").permitAll()
 /* esto se cambio EN EL CONTROLADOR POR LA ANOTACION SECURE, cualquiera de las dos funciona	
 //		//permite obtener a usuarios y admin
 		.antMatchers(HttpMethod.GET,"/api/clientes/{id}").hasAnyRole("USUARIO","ADMIN")

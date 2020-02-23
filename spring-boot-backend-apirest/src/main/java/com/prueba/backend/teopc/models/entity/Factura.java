@@ -57,6 +57,17 @@ public class Factura implements Serializable{
 		this.createAt = new Date();
 	}
 	
+	//metodo que calcula el total de la factura
+	public Double getTotal()
+	{
+		Double total = 0.00;
+		for(ItemFactura item:items)
+		{
+			total += item.getImporte();
+		}
+		return total;
+	}
+	
 	public Long getId() {
 		return id;
 	}

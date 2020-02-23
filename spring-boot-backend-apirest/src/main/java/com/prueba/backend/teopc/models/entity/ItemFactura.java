@@ -3,9 +3,12 @@ package com.prueba.backend.teopc.models.entity;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,9 +21,21 @@ public class ItemFactura implements Serializable {
 
 	private Integer cantidad;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "producto_id")//opcional, si no se crea automaticamente
+	private Producto producto;
 	
-	public Double calcularImporte() {
-		return cantidad.doubleValue();
+	//metodo que calcula la cantidad, se coloca get para que lo incluya en el json
+	public Double getImporte() {
+		return cantidad.doubleValue()*producto.getPrecio();
+	}
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
 	}
 
 	public Long getId() {

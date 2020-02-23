@@ -1,15 +1,20 @@
 package com.prueba.backend.teopc.models.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -33,15 +38,24 @@ public class Factura implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 	
+	//relacion unidimensional, esto quiere decir que no es necesario que la relacion este en items ya que no tiene sentido en la logica,
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	//como es unidimensional, y en la otra tabla no se crea el campo, es necesario crearlo desde aca
+	@JoinColumn(name = "factura_id")//esta llave foranea se crea en factura.item
+	private List<ItemFactura> items;
+	
+	
+	public Factura()
+	{
+		items = new ArrayList<>();
+	}
+	
 	//metodo que se ejecuta automaticamente
 	@PrePersist
 	public void preGuardar()
 	{
 		this.createAt = new Date();
 	}
-	
-	
-	
 	
 	public Long getId() {
 		return id;
@@ -74,6 +88,14 @@ public class Factura implements Serializable{
 		this.cliente = cliente;
 	}
 	
+	public List<ItemFactura> getItems() {
+		return items;
+	}
+
+	public void setItems(List<ItemFactura> items) {
+		this.items = items;
+	}
+
 	/**
 	 * 
 	 */

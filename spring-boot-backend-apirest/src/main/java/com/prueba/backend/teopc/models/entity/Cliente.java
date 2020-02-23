@@ -63,6 +63,7 @@ public class Cliente implements Serializable{
 	//para que la relacion sea en ambos sentidos, bidimencional se coloca mapped by el nombre del atributo de la contraparte
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "cliente",cascade = CascadeType.ALL)
 	private List<Factura> facturas;
+
 	
 	//es necesario inicializar la lista
 	public Cliente() {

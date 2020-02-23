@@ -33,12 +33,13 @@ export class ClienteService {
   // }
 
   getRegiones():Observable<Region[]>{
-    return this.http.get<Region[]>(this.urlEndPoint+'/regiones').pipe(
-      catchError(e =>{
-        this.isNoAutorizado(e);
-        return throwError(e);
-      })
-    );
+    return this.http.get<Region[]>(this.urlEndPoint+'/regiones')
+    // .pipe( esto fue cambiado por auth interceptor
+    //   catchError(e =>{
+    //     this.isNoAutorizado(e);
+    //     return throwError(e);
+    //   })
+    // );
   }
 
 
@@ -95,15 +96,20 @@ create(cliente:Cliente) :Observable<Cliente>
     //Este map lo utilizamos para convertir un objeto que existe en el json, en objeto cliente
     map((JSONObj:any)=>JSONObj.cliente as Cliente),
     catchError(e=>{
-      if(this.isNoAutorizado(e))
-      {
-        return throwError(e);
-      }
+      //se manneja en el interceptor
+      // if(this.isNoAutorizado(e))
+      // {
+      //   return throwError(e);
+      // }
       if(e.status == 400)
       {
         return throwError(e);
       }
-      console.error(e.error.mensaje);
+      if(e.error.mensaje)
+      {
+        console.error(e.error.mensaje);
+      }
+     
       Swal.fire('Error al crear cliente',e.error.mensaje,'error');
       return throwError(e);
     })
@@ -114,17 +120,21 @@ getCliente(id):Observable<Cliente>
 {
   return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
     catchError(e => {
-      if(this.isNoAutorizado(e))
+      if(e.status!=401&&e.error.mensaje)
       {
-        return throwError(e);
+        console.log(e.error.mensaje);
+        this.router.navigate(['/clientes'])
       }
+      //se maneja en el interceptor
+      // if(this.isNoAutorizado(e))
+      // {
+      //   return throwError(e);
+      // }
       //error 400 viene de la validacion de campos desde backend
       if(e.status==400)
       {
         return throwError(e);
       }
-      this.router.navigate(['/clientes'])
-      console.error(e.error.mensaje);
       //e.error.mensaje es el que determinamos desde el backend
       Swal.fire('error al editar',e.error.mensaje,'error');
       return throwError(e);
@@ -136,16 +146,20 @@ update(cliente:Cliente):Observable<any>
 {
   return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`,cliente).pipe(
     catchError(e=>{
-      if(this.isNoAutorizado(e))
-      {
-        return throwError(e);
-      }
+      //se maneja en el interceptor
+      // if(this.isNoAutorizado(e))
+      // {
+      //   return throwError(e);
+      // }
       //error 400 viene de la validacion de campos desde backend
       if(e.status==400)
       {
         return throwError(e);
       }
-      console.error(e.error.mensaje);
+      if(e.error.mensaje)
+      {
+        console.error(e.error.mensaje);
+      }
       Swal.fire('Error al actualizar cliente',e.error.mensaje,'error');
       return throwError(e);
     })
@@ -155,11 +169,15 @@ delete(id:number):Observable<Cliente>
 {
   return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
     catchError(e=>{
-      if(this.isNoAutorizado(e))
+      //se maneja en el interceptor
+      // if(this.isNoAutorizado(e))
+      // {
+      //   return throwError(e);
+      // }
+      if(e.error.mensaje)
       {
-        return throwError(e);
+        console.error(e.error.mensaje);
       }
-      console.error(e.error.mensaje);
       Swal.fire('Error al eliminar cliente',e.error.mensaje,'error');
       return throwError(e);
     })
@@ -187,36 +205,38 @@ subirFoto(archivo:File, id):Observable<HttpEvent<{}>>
     //PARA LA SEGURIDAD PASARALE EL TOKEN se cambio por el interceptor
     //headers:httpHeaders
   })
-  return this.http.request(req).pipe(
-    catchError(e =>{
-      this.isNoAutorizado(e);
-      return throwError(e);
-    })
-  );
+  return this.http.request(req)
+  //se maneja en el interceṕtor
+  // .pipe(
+  //   catchError(e =>{
+  //     this.isNoAutorizado(e);
+  //     return throwError(e);
+  //   })
+  // );
 }
 
-private isNoAutorizado(e):boolean
-{
-  //401 es no autorizado, 403 es forgiben osea recurso no autorizado
-  if(e.status == 401)
-  {
+// private isNoAutorizado(e):boolean este fue implementado en interceptor auth
+// {
+//   //401 es no autorizado, 403 es forgiben osea recurso no autorizado
+//   if(e.status == 401)
+//   {
 
-    //preguntamos si el token expiro, si expiro entonces cerramos
-    if(this.authService.estaAutenticado()){
-      Swal.fire("Termino su session","vuelva ingrese por favor",'error');
-      this.authService.logout();
-    }
+//     //preguntamos si el token expiro, si expiro entonces cerramos
+//     if(this.authService.estaAutenticado()){
+//       Swal.fire("Termino su session","vuelva ingrese por favor",'error');
+//       this.authService.logout();
+//     }
 
-    this.router.navigate(['/login'])
-    return true;
-  }
-  else if(e.status == 403)
-  {
-    Swal.fire("Acceso Denegado","que hace por aca ?",'error');
-    this.router.navigate(['/clientes'])
-    return true;
-  }
-  return false;
-}
+//     this.router.navigate(['/login'])
+//     return true;
+//   }
+//   else if(e.status == 403)
+//   {
+//     Swal.fire("Acceso Denegado","que hace por aca ?",'error');
+//     this.router.navigate(['/clientes'])
+//     return true;
+//   }
+//   return false;
+// }
 
 }

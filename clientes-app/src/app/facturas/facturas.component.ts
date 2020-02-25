@@ -73,6 +73,11 @@ export class FacturasComponent implements OnInit {
   actualizarCantidad(id:number,event:any):void{
     let cantidad:number = event.target.value as number;
 
+    if(cantidad ==0)
+    {
+      this.eliminarItemFactura(id);
+    }
+
     this.factura.items = this.factura.items.map((item:ItemFactura)=>{
       if(id=== item.producto.id){
         item.cantidad = cantidad;
@@ -102,6 +107,13 @@ export class FacturasComponent implements OnInit {
       return item;
     });
 
+  }
+
+  //con el filter dejamos todos aquellos que no sean el seleccionado
+  eliminarItemFactura(id:number):void{
+    this.factura.items = this.factura.items.filter((item:ItemFactura)=>{
+      id !== item.producto.id;
+    })
   }
 
 }

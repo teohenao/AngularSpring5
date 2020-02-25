@@ -23,6 +23,7 @@
           <th>Email</th>
           <th *ngIf="authService.hasRole('ROLE_ADMIN')">Editar</th>
           <th *ngIf="authService.hasRole('ROLE_ADMIN')">Eliminar</th>
+          <th>Fctura</th>
         </tr>
       </thead>
       <tbody>
@@ -41,6 +42,7 @@
           <!-- locale_id es para cambiar el lenguaje incluido el de los pipes -->
           <td>{{c.createAt | date:"EEEE dd,MMMM yyyy"}}</td>
           <td>{{c.email}}</td>
+          <td><button type="button" class="btn btn-success btn-sm" [routerLink]="['/facturas/form',c.id]" >crear factura</button></td>
           <td *ngIf="authService.hasRole('ROLE_ADMIN')">
             <button  type="button" name="button" [routerLink]="['/clientes/form',c.id]"
               class="btn btn-primary btn-sm">Editar</button>

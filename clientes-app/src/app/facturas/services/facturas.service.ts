@@ -16,4 +16,9 @@ export class FacturasService {
   {
     return this.http.get<Factura>(this.urlEndPoint+'/'+id);
   }
+
+  detele(id:number):Observable<void>
+  {
+    return this.http.delete<void>(this.urlEndPoint+'/'+id);
+  }
 }

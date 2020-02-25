@@ -28,6 +28,7 @@ import { RoleGuard } from './usuarios/guards/role.guard';
 import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
 import { AuthInterceptor } from './usuarios/interceptors/auth.interceptor';
 import { DetalleFacturaComponent } from './facturas/detalle-factura.component';
+import { FacturasComponent } from './facturas/facturas.component';
 
 //internacionalizacion para el idioma de las fechas
 registerLocaleData(localeES,'es');
@@ -39,7 +40,8 @@ const routes:Routes=[
   {path:'clientes/form',component:FormComponent,canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}},//canActive es un arreglo ya que se pueden tener varios guard si uno quiere
   {path:'clientes/form/:id',component:FormComponent,canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}},
   {path:'login',component:LoginComponent},
-  {path:'facturas/:id',component:DetalleFacturaComponent}
+  {path:'facturas/:id',component:DetalleFacturaComponent},
+  {path:'facturas/form/:clienteId',component:FacturasComponent}
 ];
 
 @NgModule({
@@ -53,7 +55,8 @@ const routes:Routes=[
     PaginatorComponent,
     DetalleComponent,
     LoginComponent,
-    DetalleFacturaComponent
+    DetalleFacturaComponent,
+    FacturasComponent
   ],
   imports: [
     BrowserModule,

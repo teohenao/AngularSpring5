@@ -5,6 +5,8 @@ import Swal from 'sweetalert2'
 import { HttpEventType } from '@angular/common/http';
 import { ModalService } from './modal.service';
 import { AuthService } from 'src/app/usuarios/auth.service';
+import { FacturasService } from 'src/app/facturas/services/facturas.service';
+import { Factura } from 'src/app/facturas/models/factura';
 
 @Component({
   selector: 'detalle-cliente',
@@ -20,7 +22,8 @@ export class DetalleComponent implements OnInit {
   private fotoSeleccionada:File;
   progreso:number = 0;
 
-  constructor(private clienteService:ClienteService,private modalService:ModalService,private authService:AuthService) { }
+  constructor(private clienteService:ClienteService,private modalService:ModalService,private authService:AuthService
+    ,private facturaService:FacturasService) { }
 
   ngOnInit() {
     //se cambio en el modal
@@ -76,5 +79,49 @@ export class DetalleComponent implements OnInit {
     this.modalService.cerrarModal();
     this.fotoSeleccionada = null;
     this.progreso = 0;
+  }
+
+  delete(factura:Factura):void
+  {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      title: 'Esta Seguro?',
+      text: `Seguro que desea eliminar la factura ${factura.descripcion} ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'SI, eliminar!',
+      cancelButtonText: 'NO, cancelar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.facturaService.detele(factura.id).subscribe(
+          response =>{
+            //esta linea es para vilver a filtrar la lista y que quite el cliente eliminado, osea
+            //mostrar todos diferentes al eliminado, ya que si se pudo eliminar 
+            this.cliente.facturas = this.cliente.facturas.filter(fac => fac !== factura)
+            swalWithBootstrapButtons.fire(
+              'Eliminada!',
+              'Factura ha sido eliminado con exito.',
+              'success'
+            )
+          }
+        );
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Cancelo la eliminacion',
+          'Factura aun existe :)',
+          'error'
+        )
+      }
+    })
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Factura } from './models/factura';
 import { ClienteService } from '../clientes/cliente.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map, flatMap } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { FacturasService } from './services/facturas.service';
 import { Producto } from './models/producto';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { ItemFactura } from './models/item-factura';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-facturas',
@@ -21,7 +22,7 @@ export class FacturasComponent implements OnInit {
   autocompletecontrol = new FormControl();
   productosFiltrados: Observable<Producto[]>;
 
-  constructor(private clienteService:ClienteService,private activateRoute:ActivatedRoute,private facturaService:FacturasService) { }
+  constructor(private router:Router, private clienteService:ClienteService,private activateRoute:ActivatedRoute,private facturaService:FacturasService) { }
 
   ngOnInit() {
     this.activateRoute.paramMap.subscribe(params=>{
@@ -113,6 +114,14 @@ export class FacturasComponent implements OnInit {
   eliminarItemFactura(id:number):void{
     this.factura.items = this.factura.items.filter((item:ItemFactura)=>id != item.producto.id // ojo, aca no se por que no sirvio con llaves
     )
+  }
+
+  create():void{
+    console.log(this.factura);
+    this.facturaService.create(this.factura).subscribe(response=>{
+      Swal.fire('exito','la factura fue creada con exito','success');
+      this.router.navigate(['/clientes']);
+    })
   }
 
 }

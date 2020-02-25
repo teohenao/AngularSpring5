@@ -73,7 +73,7 @@ export class FacturasComponent implements OnInit {
   actualizarCantidad(id:number,event:any):void{
     let cantidad:number = event.target.value as number;
 
-    if(cantidad ==0)
+    if(cantidad == 0)
     {
       this.eliminarItemFactura(id);
     }
@@ -111,9 +111,8 @@ export class FacturasComponent implements OnInit {
 
   //con el filter dejamos todos aquellos que no sean el seleccionado
   eliminarItemFactura(id:number):void{
-    this.factura.items = this.factura.items.filter((item:ItemFactura)=>{
-      id !== item.producto.id;
-    })
+    this.factura.items = this.factura.items.filter((item:ItemFactura)=>id != item.producto.id // ojo, aca no se por que no sirvio con llaves
+    )
   }
 
 }

@@ -14,8 +14,8 @@ import { FormComponent } from './clientes/form.component';
 import { RouterModule, Routes } from '@angular/router';
 //impoort para las peticiones http, conectar back y front
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-//import formularios de angular
-import {FormsModule} from '@angular/forms'
+//import formularios de angular                         --reactive es para material autocomplete
+import {FormsModule,ReactiveFormsModule} from '@angular/forms'
 import localeES from '@angular/common/locales/es'
 import {registerLocaleData} from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,6 +29,11 @@ import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
 import { AuthInterceptor } from './usuarios/interceptors/auth.interceptor';
 import { DetalleFacturaComponent } from './facturas/detalle-factura.component';
 import { FacturasComponent } from './facturas/facturas.component';
+//para el autocomplete
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
+
+
 
 //internacionalizacion para el idioma de las fechas
 registerLocaleData(localeES,'es');
@@ -67,6 +72,8 @@ const routes:Routes=[
     BrowserAnimationsModule,
     //material angular para datepicker
     MatMomentDateModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
     MatDatepickerModule,MatButtonModule,MatFormFieldModule,MatInputModule,MatRippleModule
   ],
   providers: [ClienteService,{provide:LOCALE_ID,useValue:'es'},

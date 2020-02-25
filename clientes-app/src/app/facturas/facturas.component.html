@@ -24,6 +24,24 @@
                     </div>
             </div>
             <div class="form-group row">
+                <div class="col-sm-6">
+                    <mat-form-field class="example-full-width">
+                        <input type="text"
+                               placeholder="añadir elemento"
+                               aria-label="Number"
+                               matInput
+                               [formControl]="autocompletecontrol"
+                               [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <!-- el pipe de async es ppr que se esta iterando una lista de observables -->
+                          <mat-option *ngFor="let producto of productosFiltrados | async" [value]="option">
+                            {{producto}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                </div>
+            </div>
+            <div class="form-group row">
                     <label for="" class="col-sm-2 col-form-label"></label>
                     <div class="col-sm-6">
                         <input type="submit" value="crear factura" class="btn btn-secondary">

@@ -85,7 +85,7 @@ public class ClienteRestController {
 	 * @param id
 	 * @return Cliente
 	 */
-	//@Secured({"ROLE_ADMIN","ROLE_USUARIO"})
+	@Secured({"ROLE_ADMIN","ROLE_USUARIO"})
 	@GetMapping("/clientes/{id}")
 	@ResponseStatus(HttpStatus.OK) //ese ok si no lo colocamos es creado por defecto, esto es redundancia, solo se coloca si es una respuesta diferente y si uno quiere
 	public ResponseEntity<?> show(@PathVariable Long id)// ? es tipo de dato generic, que puede ser cualquiera, responseEntity se coloca por que puede devolver un error si el cliente no existe /id

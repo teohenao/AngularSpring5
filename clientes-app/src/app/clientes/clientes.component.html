@@ -15,20 +15,19 @@
     <table class="table table-bordered table-striped" *ngIf="clientes?.length>0">
       <thead>
         <tr>
-          <!-- *ngIf="authService.hasRole('ROLE_USUARIO')" -->
-          <th >Perfil</th>
+          <th *ngIf="authService.hasRole('ROLE_USUARIO')">Perfil</th>
           <th>Nombre</th>
           <th>Apellido</th>
           <th>Fecha</th>
           <th>Email</th>
           <th *ngIf="authService.hasRole('ROLE_ADMIN')">Editar</th>
           <th *ngIf="authService.hasRole('ROLE_ADMIN')">Eliminar</th>
-          <th>Fctura</th>
+          <th *ngIf="authService.hasRole('ROLE_ADMIN')">Fctura</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let c of clientes">
-          <td> <img (click)="abrirModal(c)" *ngIf="c?.foto" src="http://localhost:8080/api/uploads/img/{{c.foto}}"
+          <td *ngIf="authService.hasRole('ROLE_USUARIO')"> <img (click)="abrirModal(c)" *ngIf="c?.foto" src="http://localhost:8080/api/uploads/img/{{c.foto}}"
             alt="{{c.foto}}" class="img-thumbnail rounded"
             style="width: 64px;cursor: pointer;">
 
@@ -42,7 +41,7 @@
           <!-- locale_id es para cambiar el lenguaje incluido el de los pipes -->
           <td>{{c.createAt | date:"EEEE dd,MMMM yyyy"}}</td>
           <td>{{c.email}}</td>
-          <td><button type="button" class="btn btn-success btn-sm" [routerLink]="['/facturas/form',c.id]" >crear factura</button></td>
+          <td *ngIf="authService.hasRole('ROLE_ADMIN')"><button type="button" class="btn btn-success btn-sm" [routerLink]="['/facturas/form',c.id]" >crear factura</button></td>
           <td *ngIf="authService.hasRole('ROLE_ADMIN')">
             <button  type="button" name="button" [routerLink]="['/clientes/form',c.id]"
               class="btn btn-primary btn-sm">Editar</button>

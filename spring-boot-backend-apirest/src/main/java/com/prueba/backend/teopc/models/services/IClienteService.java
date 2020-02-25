@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.prueba.backend.teopc.models.entity.Cliente;
 import com.prueba.backend.teopc.models.entity.Factura;
+import com.prueba.backend.teopc.models.entity.Producto;
 import com.prueba.backend.teopc.models.entity.Region;
 
 //los services manejan y administran los diferentes accesos a los daos
@@ -34,5 +35,7 @@ public interface IClienteService {
 	public Factura saveFactura(Factura factura);
 	
 	public void deleteFacturaById(Long id);
+	
+	public List<Producto> findProductoByNombre(String term);
 
 }

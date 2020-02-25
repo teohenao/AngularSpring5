@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.prueba.backend.teopc.models.dao.IClienteDao;
 import com.prueba.backend.teopc.models.dao.IFacturaDao;
+import com.prueba.backend.teopc.models.dao.IProductoDao;
 import com.prueba.backend.teopc.models.entity.Cliente;
 import com.prueba.backend.teopc.models.entity.Factura;
+import com.prueba.backend.teopc.models.entity.Producto;
 import com.prueba.backend.teopc.models.entity.Region;
 
 @Service
@@ -26,6 +28,9 @@ public class ClienteServiceImplement implements IClienteService {
 	
 	@Autowired
 	private IFacturaDao facturaDao;
+	
+	@Autowired
+	private IProductoDao productoDao;
 	
 	//en el transactional se coloca que desea, si solo lectura o escritura o todos etc
 	@Override
@@ -87,6 +92,15 @@ public class ClienteServiceImplement implements IClienteService {
 		facturaDao.deleteById(id);
 		
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Producto> findProductoByNombre(String term) {
+		return productoDao.findByNombre(term);
+	}
+	
+	
+	
 
 
 }

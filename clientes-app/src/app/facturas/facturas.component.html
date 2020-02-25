@@ -31,8 +31,8 @@
                                matInput
                                [formControl]="autocompletecontrol"
                                [matAutocomplete]="auto">
-                               <!-- en mat autocomplete se da el metodo al seleccionar un autocomplete -->
-                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarNombre">
+                               <!-- en mat autocomplete se da el metodo al seleccionar un autocomplete y se muestta con displaywith y con optionSelected ya creamos la linea con el seleccionado, event contiene el producto seleccionado -->
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarNombre" (optionSelected)="seleccionarProducto($event)">
                             <!-- el pipe de async es ppr que se esta iterando una lista de observables -->
                           <mat-option *ngFor="let producto of productosFiltrados | async" [value]="producto">
                             {{producto.nombre}}
@@ -41,8 +41,25 @@
                       </mat-form-field>
                 </div>
             </div>
+            <table class="table table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>nombre</th>
+                        <th>precio</th>
+                        <th>cantidad</th>
+                        <th>total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of factura.items">
+                        <td>{{item.producto.nombre}}</td>
+                        <td>{{item.producto.precio}}</td>
+                        <td>{{item.cantidad}}</td>
+                        <td>{{item.calcularImporte()}}</td>
+                    </tr>
+                </tbody>
+            </table>
             <div class="form-group row">
-                    <label for="" class="col-sm-2 col-form-label"></label>
                     <div class="col-sm-6">
                         <input type="submit" value="crear factura" class="btn btn-secondary">
                     </div>

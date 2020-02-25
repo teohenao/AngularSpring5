@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { startWith, map, flatMap } from 'rxjs/operators';
 import { FacturasService } from './services/facturas.service';
 import { Producto } from './models/producto';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { ItemFactura } from './models/item-factura';
 
 @Component({
   selector: 'app-facturas',
@@ -46,6 +48,20 @@ export class FacturasComponent implements OnInit {
 
   mostrarNombre(producto?:Producto):string | undefined{
     return producto? producto.nombre :undefined;
+  }
+
+  seleccionarProducto(event:MatAutocompleteSelectedEvent):void{
+    let productoSeleccionado = event.option.value as Producto;
+    console.log(productoSeleccionado);
+
+    let nuevoItem = new ItemFactura();
+    nuevoItem.producto = productoSeleccionado;
+    this.factura.items.push(nuevoItem);//agregamos el item a la factura
+
+    //reiniciamos el campo
+    this.autocompletecontrol.setValue("");
+    event.option.focus();
+    event.option.deselect();
   }
 
 }

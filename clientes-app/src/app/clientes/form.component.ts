@@ -75,6 +75,7 @@ this.activateRoute.params.subscribe(params=>
 
   update():void
   {
+    this.cliente.facturas = null; // esto es para actualizar cliente y no tener error de recursion por querer actualizar sus facturas
     this.clienteService.update(this.cliente)
     .subscribe(JSON=>{
       this.route.navigate(['/clientes'])

@@ -62,7 +62,7 @@ public class Cliente implements Serializable{
 	
 	//para que la relacion sea en ambos sentidos, bidimencional se coloca mapped by el nombre del atributo de la contraparte
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "cliente",cascade = CascadeType.ALL)
-	@JsonIgnoreProperties({"cliente","hibernateLazyInitializer","handler"})//esto es para que no cargue en facturas el cliente de nuevo e ingrese en un bugel json
+	@JsonIgnoreProperties(value={"cliente","hibernateLazyInitializer","handler"},allowSetters = true)//alow seters es para el error de editar en relaciones  ________---esto es para que no cargue en facturas el cliente de nuevo e ingrese en un bugel json
 	private List<Factura> facturas;
 
 	

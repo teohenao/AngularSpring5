@@ -37,8 +37,8 @@ public class Factura implements Serializable{
 	private Date createAt;
 	
 	//muchas facturas corresponden a un cliente
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties({"facturas","hibernateLazyInitializer","handler"})//para que el json no entre en bug infinito
+	@ManyToOne(fetch = FetchType.LAZY) //allow setters de abajo es para el error en editar, cuando se tiene la relacion
+	@JsonIgnoreProperties(value={"facturas","hibernateLazyInitializer","handler"},allowSetters = true)//para que el json no entre en bug infinito
 	private Cliente cliente;
 	
 	//relacion unidimensional, esto quiere decir que no es necesario que la relacion este en items ya que no tiene sentido en la logica,

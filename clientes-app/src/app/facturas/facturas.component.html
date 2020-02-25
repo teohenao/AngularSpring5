@@ -25,17 +25,17 @@
             </div>
             <div class="form-group row">
                 <div class="col-sm-6">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field>
                         <input type="text"
                                placeholder="añadir elemento"
-                               aria-label="Number"
                                matInput
                                [formControl]="autocompletecontrol"
                                [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete">
+                               <!-- en mat autocomplete se da el metodo al seleccionar un autocomplete -->
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarNombre">
                             <!-- el pipe de async es ppr que se esta iterando una lista de observables -->
-                          <mat-option *ngFor="let producto of productosFiltrados | async" [value]="option">
-                            {{producto}}
+                          <mat-option *ngFor="let producto of productosFiltrados | async" [value]="producto">
+                            {{producto.nombre}}
                           </mat-option>
                         </mat-autocomplete>
                       </mat-form-field>

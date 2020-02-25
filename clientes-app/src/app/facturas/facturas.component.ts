@@ -4,7 +4,9 @@ import { ClienteService } from '../clientes/cliente.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
+import { startWith, map, flatMap } from 'rxjs/operators';
+import { FacturasService } from './services/facturas.service';
+import { Producto } from './models/producto';
 
 @Component({
   selector: 'app-facturas',
@@ -15,10 +17,9 @@ export class FacturasComponent implements OnInit {
   titulo:string='nueva factura';
   factura:Factura = new Factura;
   autocompletecontrol = new FormControl();
-  productos: string[] = ['Mesa', 'Table', 'Three'];
-  productosFiltrados: Observable<string[]>;
+  productosFiltrados: Observable<Producto[]>;
 
-  constructor(private clienteService:ClienteService,private activateRoute:ActivatedRoute) { }
+  constructor(private clienteService:ClienteService,private activateRoute:ActivatedRoute,private facturaService:FacturasService) { }
 
   ngOnInit() {
     this.activateRoute.paramMap.subscribe(params=>{
@@ -30,15 +31,21 @@ export class FacturasComponent implements OnInit {
 
     this.productosFiltrados = this.autocompletecontrol.valueChanges
     .pipe(
-      startWith(''),
-      map(value => this._filter(value))
+      // con tipe of se pregunta si es de cierto tipo,si es verdad return value, o si no el value nombre
+      map(value => typeof value === 'string'? value:value.nombre),
+      flatMap(value => value? this._filter(value):[])//se pregunta si value exite, y devuelve la lista, si no devuelve una lista vacia
     );
   }
 
-  private _filter(value: string): string[] {
+  private _filter(value: string): Observable<Producto[]> {
     const filterValue = value.toLowerCase();
 
-    return this.productos.filter(option => option.toLowerCase().includes(filterValue));
+    return this.facturaService.filtrarProductos(filterValue);
+  }
+
+
+  mostrarNombre(producto?:Producto):string | undefined{
+    return producto? producto.nombre :undefined;
   }
 
 }

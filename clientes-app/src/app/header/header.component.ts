@@ -13,7 +13,7 @@ export class HeaderComponent
     //cuando se utiliza {{}} en el html se llama interpolacion de string
     title:string = 'AppAngular-Spring';
 
-    constructor(private authService:AuthService,private router:Router){
+    constructor(public authService:AuthService,private router:Router){
 
     }
     logout(): void {

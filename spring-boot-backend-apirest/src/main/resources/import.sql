@@ -6,13 +6,7 @@ INSERT INTO clientes(nombre,apellido,email,create_at,region_id)VALUES('Mateo2','
 INSERT INTO clientes(nombre,apellido,email,create_at,region_id)VALUES('Mateo3','Henao3','mateohr3880@gmail.com','2018-01-01',3);
 INSERT INTO `roles`(nombre) VALUES ('ROLE_ADMIN');
 INSERT INTO `roles`(nombre) VALUES ('ROLE_USUARIO');
-INSERT INTO `usuarios` (username,password,enabled,nombre,apellido,email) VALUES ('andres',
-'$2a$10$ccdQFpkXfffkcFa7K/idYeP6w5r5IwlTjZbwlAQFKoJttCGIm1hka',1,'Andres','Guzman','email1@gmail.coma');
-INSERT INTO `usuarios` (username,password,enabled,nombre,apellido,email) VALUES ('mateo'
-,'$2a$10$6mRXKFtvkHcM9wMuQHBrmeZFZGlV9x0HJDfOgs0tl5kWFEDGlR9qm',1,'teo','Guzman','emailadssa1@gmail.coma');
-INSERT INTO `usuarios_roles` (usuario_id,role_id) VALUES (1,2);
-INSERT INTO `usuarios_roles` (usuario_id,role_id) VALUES (2,2);
-INSERT INTO `usuarios_roles` (usuario_id,role_id) VALUES (2,1);
+
 
 /* Populate tabla productos */
 INSERT INTO productos (nombre, precio, create_at) VALUES('Panasonic Pantalla LCD', 259990, NOW());
@@ -33,4 +27,12 @@ INSERT INTO facturas_items (cantidad, factura_id, producto_id) VALUES(1, 1, 7);
 
 INSERT INTO facturas (descripcion, observacion, cliente_id, create_at) VALUES('Factura Bicicleta', 'Alguna nota importante!', 1, NOW());
 INSERT INTO facturas_items (cantidad, factura_id, producto_id) VALUES(3, 2, 6);
+
+INSERT INTO `usuarios` (username,password,enabled,nombre,apellido,email) VALUES ('andres',
+'$2a$10$ccdQFpkXfffkcFa7K/idYeP6w5r5IwlTjZbwlAQFKoJttCGIm1hka',1,'Andres','Guzman','email1@gmail.coma');
+INSERT INTO `usuarios` (username,password,enabled,nombre,apellido,email) VALUES ('mateo'
+,'$2a$10$6mRXKFtvkHcM9wMuQHBrmeZFZGlV9x0HJDfOgs0tl5kWFEDGlR9qm',1,'teo','Guzman','emailadssa1@gmail.coma');
+INSERT INTO `usuarios_roles` (usuario_id,role_id) VALUES (1,2);
+INSERT INTO `usuarios_roles` (usuario_id,role_id) VALUES (2,2);
+INSERT INTO `usuarios_roles` (usuario_id,role_id) VALUES (2,1);
 

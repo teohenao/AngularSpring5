@@ -17,8 +17,8 @@ export class ClientesComponent implements OnInit {
   paginador:any;
   clienteSeleccionado:Cliente;
 
-  constructor(private clienteService:ClienteService,private activatedRouted:ActivatedRoute,private modalService:ModalService
-    ,private authService:AuthService)
+  constructor(private clienteService:ClienteService,private activatedRouted:ActivatedRoute,public modalService:ModalService
+    ,public authService:AuthService)
   { 
 
   }

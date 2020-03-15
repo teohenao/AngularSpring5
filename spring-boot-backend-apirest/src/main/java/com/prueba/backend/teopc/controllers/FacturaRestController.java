@@ -19,7 +19,7 @@ import com.prueba.backend.teopc.models.entity.Factura;
 import com.prueba.backend.teopc.models.entity.Producto;
 import com.prueba.backend.teopc.models.services.IClienteService;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = {"http://localhost:4200","*"})
 @RestController
 @RequestMapping("/api")
 public class FacturaRestController {

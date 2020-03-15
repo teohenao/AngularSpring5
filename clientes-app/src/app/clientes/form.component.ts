@@ -11,10 +11,10 @@ import { Region } from './region';
 })
 export class FormComponent implements OnInit {
 
-  private cliente:Cliente = new Cliente();
-  private titulo:string = 'Crear Cliente';
+  public cliente:Cliente = new Cliente();
+  public titulo:string = 'Crear Cliente';
   //atributo que tiene el arreglo de errores de campos en mensajes
-  private errores:string[];
+  public errores:string[];
 
   //lista de las regiones
   regiones:Region[];

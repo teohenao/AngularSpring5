@@ -1,0 +1,70 @@
+1- en resource server config se agrega la direccion del dominio, igual en los controladores "*"
+2- el import sql se modifica : propiedades, iso 8859
+
+angular:
+para el modal, se cambia el authservice y modalservice en el constructor a public, se coloca public lo que se utilice en las vistas, y no solo dentro de la clase
+
+jar...
+importante que el proyecto tenga los archivos maven
+en el target se crea el jar, si tiene basura se le da clean si no se puede omitir       en windows es ./ inverso el slash xd /mvnw.cmd clean package se ejecuta el cmd .cmd si es windows o el mvnw si es linux, succees si salio bien
+
+ java -jar ./target/spring-boot-backend-apirest-0.0.1-SNAPSHOT.jar 
+ para correr el jar
+
+angular build.....
+ng build --prod       corregir lo que ppida que sea publico
+
+
+heroku, crear cuenta, decir que es java, instalar heroku,
+jaws en resources,
+pom de java, colocar java 1.8, update project
+en properties configurar puerto   server.port=${PORT:8080}
+EN HEROKU sql script debe estar en utf8
+desde la raiz del proyecto :
+heroku login 
+git init
+heroku git:remote -a spring-boot2-heroku-teo el segundo parametro es el nombre del proyecto en heroku
+
+heroku plugins:install java
+
+heroku addons:create jawsdb
+
+heroku config:get "nombre que tiro el comando de arriba despues del as" ESTO NOS RETORNA EL STRING DE CONEXION Y LO SELECCIONAMOS, SE COLOca en properties en proyecto
+
+la clave se divide asi    username:password arroba nombreservidor:puerto /nombreBase
+se modifican los properties de username, password y asi y se elimina del ussl false para adelante y se cambia el dialect a version 5.7
+sudo ./mvnw clean package
+
+heroku jar:deploy ./ubicacion del jar en target   nota:con el datasource url se puede abrir en workbech y administrar
+
+heroku logs --tail para ver la consola de la app
+
+
+firebase----
+se crea la carpeta config en app, con la clase config.ts
+ella tendra export const URL_BACKEND = ' https://spring-boot2-heroku-teo.herokuapp.com', ESTE SE IMPORTA EN TODAS LAS RUTAS QUE ACCEDEN AL BACKEND
+
+ng build --prod
+
+en dist: 
+-creamos carpeta public, y copiamos todo el contenido alli
+
+se logea en firebase, se instala firebase tools, npm install -g firebase-tools
+firebase login
+nos paramos en dist, firebase init 
+poceder si, hosting, create new, directorio public 'enter', index html yes, 
+override no,
+firebase: crear nuevo proyecto,firebase use --add
+alias el que queramos
+firebase deploy
+
+
+https://devcenter.heroku.com/articles/s3
+
+https://help.heroku.com/K1PPS2WM/why-are-my-file-uploads-missing-deleted
+
+leer eso para imagenes directorio
+
+
+
+

@@ -45,7 +45,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	{
 		CorsConfiguration config = new CorsConfiguration();
 		//permitir el dominio del clente
-		config.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+		config.setAllowedOrigins(Arrays.asList("http://localhost:4200","*"));//con alterisco acepta cuarlquier origen para el despliegue
 		config.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));// CON * SE PUEDE DECIR QUE PARA TODOS
 		config.setAllowCredentials(true);
 		config.setAllowedHeaders(Arrays.asList("Content-Type","Authorization"));
